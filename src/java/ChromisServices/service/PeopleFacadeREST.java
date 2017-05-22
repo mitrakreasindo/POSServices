@@ -7,7 +7,6 @@ package ChromisServices.service;
 
 import Chromis.People;
 import Chromis.Roles;
-import Utils.EncryptFunction;
 import Utils.GeneralFunction;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +69,7 @@ public class PeopleFacadeREST extends AbstractFacade<People> {
         
         try
         {
-            query.setParameter("app_pass", EncryptFunction.encryptPassword(entity.getApppassword()));
+            query.setParameter("app_pass", GeneralFunction.encryptPassword(entity.getApppassword()));
             query.execute();   
             //Get output parameter value
             Integer key = (Integer) query.getOutputParameterValue("retval");
@@ -116,7 +115,7 @@ public class PeopleFacadeREST extends AbstractFacade<People> {
         
         try
         {
-            query.setParameter("app_pass", EncryptFunction.encryptPassword(entity.getApppassword()));
+            query.setParameter("app_pass", GeneralFunction.encryptPassword(entity.getApppassword()));
             query.execute();   
             //Get output parameter value
             Integer key = (Integer) query.getOutputParameterValue("retval");
