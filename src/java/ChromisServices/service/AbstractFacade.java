@@ -5,24 +5,91 @@
  */
 package ChromisServices.service;
 
+import Chromis.Roles;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
  * @author Asun
  */
-public abstract class AbstractFacade<T> {
+public abstract class AbstractFacade<T>
+{
 
-    private Class<T> entityClass;
+  private Class<T> entityClass;
 
-    public AbstractFacade(Class<T> entityClass) {
-        this.entityClass = entityClass;
+  public AbstractFacade(Class<T> entityClass)
+  {
+    this.entityClass = entityClass;
+  }
+
+  protected abstract EntityManager getEntityManager();
+
+  protected EntityManager getEntityManager(String schema)
+  {
+    EntityManager em = null;
+    EntityManagerFactory emf = null;
+    Map properties = new HashMap();
+    properties.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
+    properties.put("javax.persistence.jdbc.url", "jdbc:postgresql://192.168.1.40:5432/chromispos?currentSchema=" + schema);
+    properties.put("javax.persistence.jdbc.user", "chromispos");
+    properties.put("javax.persistence.jdbc.password", "chromispos");
+    try
+    {
+      emf = Persistence.createEntityManagerFactory("dynamicJPA", properties);
     }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+    return em = (EntityManager) emf.createEntityManager();
+  }
+  
+  public T find(String kodeMerchant, String id)
+  {
+    try
+    {
+      Query q = getEntityManager().createNativeQuery("SELECT * FROM " + kodeMerchant + "." + entityClass.getSimpleName() + " where id = '" + id + "'", entityClass);
+      return (T) q.getSingleResult();
+    }
+    catch (Exception e)
+    {
+      return null;
+    }
+  }
 
-    protected abstract EntityManager getEntityManager();
+  public List<T> findAll(String kodeMerchant)
+  {
+    try
+    {
+      Query q = getEntityManager().createNativeQuery("SELECT * FROM " + kodeMerchant + "." + entityClass.getSimpleName(), entityClass);
+      return q.getResultList();
+    }
+    catch (Exception e)
+    {
+      return null;
+    }
+  }
 
-//    public void create(T entity) {
+  public int count(String kodeMerchant)
+  {
+    try
+    {
+      Query q = getEntityManager().createNativeQuery("SELECT count(1) FROM " + kodeMerchant + "."+entityClass.getSimpleName(), Integer.class);
+      return (Integer) q.getSingleResult();
+    }
+    catch (Exception e)
+    {
+      return 0;
+    }
+  }
+
+  //    public void create(T entity) {
 //        getEntityManager().persist(entity);
 //    }
 //
@@ -33,32 +100,13 @@ public abstract class AbstractFacade<T> {
 //    public void remove(T entity) {
 //        getEntityManager().remove(getEntityManager().merge(entity));
 //    }
-
-    public T find(Object id) {
-        return getEntityManager().find(entityClass, id);
-    }
-
-    public List<T> findAll() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
-
-    public List<T> findRange(int[] range) {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        javax.persistence.Query q = getEntityManager().createQuery(cq);
-        q.setMaxResults(range[1] - range[0] + 1);
-        q.setFirstResult(range[0]);
-        return q.getResultList();
-    }
-
-    public int count() {
-        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
-        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-        javax.persistence.Query q = getEntityManager().createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
-    }
-    
+//  public List<T> findRange(int[] range)
+//  {
+//    javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+//    cq.select(cq.from(entityClass));
+//    javax.persistence.Query q = getEntityManager().createQuery(cq);
+//    q.setMaxResults(range[1] - range[0] + 1);
+//    q.setFirstResult(range[0]);
+//    return q.getResultList();
+//  }
 }
