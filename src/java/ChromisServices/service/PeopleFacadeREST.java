@@ -8,6 +8,7 @@ package ChromisServices.service;
 import Chromis.Entities.People;
 import Chromis.Controller.GeneralController;
 import Chromis.Controller.PeopleController;
+import Chromis.Entities.Login;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -41,6 +42,16 @@ public class PeopleFacadeREST extends AbstractFacade<People>
   }
 
   @POST
+  //@Path("{kode}")
+  @Path("/doLogin")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public HashMap<Integer, String> doLogin(Login entity)
+  {
+    return GeneralController.executeSP(PeopleController.sp_login(em, entity.getKodeMerchant(), entity.getUsername(), entity.getPassword()));
+  }
+  
+  @POST
   @Path("{kode}")
   @Produces(MediaType.TEXT_PLAIN)
   @Consumes(MediaType.APPLICATION_JSON)
@@ -59,12 +70,12 @@ public class PeopleFacadeREST extends AbstractFacade<People>
   }
 
   @DELETE
-  @Path("{kode}")
+  @Path("{kode}/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public HashMap<Integer, String> remove(@PathParam("kode") String kodeMerchant, People entity)
+  public HashMap<Integer, String> remove(@PathParam("kode") String kodeMerchant, @PathParam("id") String id)
   {
-    return GeneralController.executeSP(PeopleController.sp_remove(em, kodeMerchant, entity));
+    return GeneralController.executeSP(PeopleController.sp_remove(em, kodeMerchant, id));
   }
   
   //Find entity by ID

@@ -72,7 +72,7 @@ public class PeopleController
     return query;
   }
   
-  public static StoredProcedureQuery sp_remove(EntityManager em, String kodeMerchant, People entity)
+  public static StoredProcedureQuery sp_remove(EntityManager em, String kodeMerchant, String id)
   {
     StoredProcedureQuery query = em.createStoredProcedureQuery("delete_user");
     // define the stored procedure
@@ -80,7 +80,31 @@ public class PeopleController
     query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
     query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
 
-    query.setParameter("person_id", entity.getId());
+    query.setParameter("person_id", id);
+    return query;
+  }
+  
+  public static StoredProcedureQuery sp_login(EntityManager em, String kodeMerchant, String username, String password)
+  {
+    StoredProcedureQuery query = em.createStoredProcedureQuery("public.login");
+    // define the stored procedure
+    query.registerStoredProcedureParameter("merchant_code", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("merchant_user_name", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("pass", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
+    query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
+
+    query.setParameter("merchant_code", kodeMerchant);
+    query.setParameter("merchant_user_name", username);
+    
+    try
+    {
+      query.setParameter("pass", GeneralFunction.encryptPassword(password));
+    }
+    catch (Exception e)
+    {
+      //return 
+    }
     return query;
   }
 }

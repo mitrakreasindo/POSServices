@@ -65,12 +65,12 @@ public class RolesFacadeREST extends AbstractFacade<Roles>
   }
 
   @DELETE
-  @Path("{kode}")
+  @Path("{kode}/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public HashMap<Integer, String> remove(@PathParam("kode") String kodeMerchant, Roles entity)
+  public HashMap<Integer, String> remove(@PathParam("kode") String kodeMerchant, @PathParam("id") String id)
   {
-    return GeneralController.executeSP(RolesControler.sp_remove(em, kodeMerchant, entity));
+    return GeneralController.executeSP(RolesControler.sp_remove(em, kodeMerchant, id));
   }
 
   //Find entity by ID

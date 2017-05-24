@@ -52,7 +52,7 @@ public class RolesControler
     return query;
   }
   
-  public static StoredProcedureQuery sp_remove(EntityManager em, String kodeMerchant, Roles entity)
+  public static StoredProcedureQuery sp_remove(EntityManager em, String kodeMerchant, String id)
   {
     StoredProcedureQuery query = em.createStoredProcedureQuery(kodeMerchant + ".delete_role");
     // define the stored procedure
@@ -60,7 +60,7 @@ public class RolesControler
     query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
     query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
 
-    query.setParameter("role_id", entity.getId());
+    query.setParameter("role_id", id);
     return query;
   }
 }
