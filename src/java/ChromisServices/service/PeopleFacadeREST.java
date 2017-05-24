@@ -6,15 +6,13 @@
 package ChromisServices.service;
 
 import Chromis.People;
-import Chromis.Roles;
-import Utils.GeneralFunction;
+import Controller.GeneralController;
+import Controller.PeopleController;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
-import javax.persistence.StoredProcedureQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -46,157 +44,59 @@ public class PeopleFacadeREST extends AbstractFacade<People>
   @Path("{kode}")
   @Produces(MediaType.TEXT_PLAIN)
   @Consumes(MediaType.APPLICATION_JSON)
-  public HashMap<Integer, String> create(People entity)
+  public HashMap<Integer, String> create(@PathParam("kode") String kodeMerchant, People entity)
   {
-    //super.create(entity);
-    HashMap<Integer, String> result = new HashMap<Integer, String>();
-
-    StoredProcedureQuery query = em.createStoredProcedureQuery("insert_user");
-    // define the stored procedure
-    query.registerStoredProcedureParameter("person_name", String.class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("app_pass", String.class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("card_no", String.class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("person_role", String.class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("visibility", Boolean.class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("image_code", byte[].class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
-    query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
-
-    query.setParameter("person_name", entity.getName());
-    //query.setParameter("app_pass", entity.getApppassword());
-    query.setParameter("card_no", GeneralFunction.checkNullString(entity.getCard()));
-    query.setParameter("person_role", entity.getRole().getId());
-    query.setParameter("visibility", entity.getVisible());
-    query.setParameter("image_code", GeneralFunction.checkNullByte(entity.getImage()));
-
-    try
-    {
-      query.setParameter("app_pass", GeneralFunction.encryptPassword(entity.getApppassword()));
-      query.execute();
-      //Get output parameter value
-      Integer key = (Integer) query.getOutputParameterValue("retval");
-      String value = (String) query.getOutputParameterValue("message");
-      result.put(key, value);
-
-      return result;
-    }
-    catch (Exception ex)
-    {
-      System.out.print("Flag asun" + ex.getStackTrace());
-      result.put(1, ex.getStackTrace().toString());
-      return result;
-    }
+    return GeneralController.executeSP(PeopleController.sp_create(em, kodeMerchant, entity));
   }
 
   @PUT
   @Path("{kode}")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public HashMap<Integer, String> edit(People entity)
+  public HashMap<Integer, String> edit(@PathParam("kode") String kodeMerchant, People entity)
   {
-    //super.create(entity);
-    HashMap<Integer, String> result = new HashMap<Integer, String>();
-
-    StoredProcedureQuery query = em.createStoredProcedureQuery("update_user");
-    // define the stored procedure
-    query.registerStoredProcedureParameter("person_id", String.class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("person_name", String.class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("app_pass", String.class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("card_no", String.class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("person_role", String.class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("visibility", Boolean.class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("image_code", byte[].class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
-    query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
-
-    query.setParameter("person_id", entity.getName());
-    query.setParameter("person_name", entity.getName());
-    query.setParameter("card_no", GeneralFunction.checkNullString(entity.getCard()));
-    query.setParameter("person_role", entity.getRole().getId());
-    query.setParameter("visibility", entity.getVisible());
-    query.setParameter("image_code", GeneralFunction.checkNullByte(entity.getImage()));
-
-    try
-    {
-      query.setParameter("app_pass", GeneralFunction.encryptPassword(entity.getApppassword()));
-      query.execute();
-      //Get output parameter value
-      Integer key = (Integer) query.getOutputParameterValue("retval");
-      String value = (String) query.getOutputParameterValue("message");
-      result.put(key, value);
-
-      return result;
-    }
-    catch (Exception ex)
-    {
-      result.put(1, ex.getMessage());
-      return result;
-    }
+    return GeneralController.executeSP(PeopleController.sp_edit(em, kodeMerchant, entity));
   }
 
   @DELETE
   @Path("{kode}")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public HashMap<Integer, String> remove(String inputID)
+  public HashMap<Integer, String> remove(@PathParam("kode") String kodeMerchant, People entity)
   {
-    //super.create(entity);
-    HashMap<Integer, String> result = new HashMap<Integer, String>();
-
-    StoredProcedureQuery query = em.createStoredProcedureQuery("delete_user");
-    // define the stored procedure
-    query.registerStoredProcedureParameter("person_id", String.class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
-    query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
-
-    query.setParameter("person_id", inputID);
-
-    try
-    {
-      query.execute();
-      //Get output parameter value
-      Integer key = (Integer) query.getOutputParameterValue("retval");
-      String value = (String) query.getOutputParameterValue("message");
-      result.put(key, value);
-
-      return result;
-    }
-    catch (Exception ex)
-    {
-      result.put(1, ex.getMessage());
-      return result;
-    }
+    return GeneralController.executeSP(PeopleController.sp_remove(em, kodeMerchant, entity));
+  }
+  
+  //Find entity by ID
+  @GET
+  @Override
+  @Path("{kode}/{id}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public People find(@PathParam("kode") String kodeMerchant, @PathParam("id") String id)
+  {
+    return super.find(kodeMerchant, id);
   }
 
-//    @GET
-//    @Path("{id}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public People find(@PathParam("id") String id) {
-//        return super.find(id);
-//    }
-//
-//    @GET
-//    @Override
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public List<People> findAll() {
-//        List<People> p = super.findAll();
-//        
-//        return super.findAll();
-//    }
-//
-//    @GET
-//    @Path("{from}/{to}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public List<People> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-//        return super.findRange(new int[]{from, to});
-//    }
-//
-//    @GET
-//    @Path("count")
-//    @Produces(MediaType.TEXT_PLAIN)
-//    public String countREST() {
-//        return String.valueOf(super.count());
-//    }
+  //Select all rows from table
+  @GET
+  @Override
+  @Path("{kode}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public List<People> findAll(@PathParam("kode") String kodeMerchant)
+  {
+    List<People> p = super.findAll(kodeMerchant);
+    return p;
+  }
+
+  @GET
+  @Override
+  @Path("{kode}/count")
+  @Produces(MediaType.TEXT_PLAIN)
+  public int count(@PathParam("kode") String kodeMerchant)
+  {
+    return super.count(kodeMerchant);
+  }
+  
   @Override
   protected EntityManager getEntityManager()
   {
