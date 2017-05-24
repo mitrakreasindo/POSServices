@@ -5,9 +5,9 @@
  */
 package ChromisServices.service;
 
-import Chromis.People;
-import Controller.GeneralController;
-import Controller.PeopleController;
+import Chromis.Entities.People;
+import Chromis.Controller.GeneralController;
+import Chromis.Controller.PeopleController;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
