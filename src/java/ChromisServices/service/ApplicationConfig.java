@@ -29,9 +29,14 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(ChromisServices.service.MerchantsFacadeREST.class);
-        resources.add(ChromisServices.service.PeopleFacadeREST.class);
+        resources.add(ChromisServices.service.AttributesetFacadeREST.class);
+        resources.add(ChromisServices.service.CategoriesFacadeREST.class);
+    resources.add(ChromisServices.service.MerchantsFacadeREST.class);
+    resources.add(ChromisServices.service.PeopleFacadeREST.class);
+    resources.add(ChromisServices.service.ProductsFacadeREST.class);
+    resources.add(ChromisServices.service.PromotionsFacadeREST.class);
     resources.add(ChromisServices.service.RolesFacadeREST.class);
+    resources.add(ChromisServices.service.TaxcategoriesFacadeREST.class);
     }
     
 }

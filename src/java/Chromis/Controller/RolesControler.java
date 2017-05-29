@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 import Chromis.Entities.Roles;
+import Chromis.Utilities.GeneralFunction;
 
 /**
  *
@@ -26,7 +27,7 @@ public class RolesControler
     query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
     query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
 
-    query.setParameter("role_name", entity.getName());
+    query.setParameter("role_name", GeneralFunction.checkNullString(entity.getName()));
     query.setParameter("permission_lists", entity.getPermissions());
     query.setParameter("rights_level", entity.getRightslevel());
     
@@ -44,8 +45,8 @@ public class RolesControler
     query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
     query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
 
-    query.setParameter("role_id", entity.getId());
-    query.setParameter("role_name", entity.getName());
+    query.setParameter("role_id", GeneralFunction.checkNullString(entity.getId()));
+    query.setParameter("role_name", GeneralFunction.checkNullString(entity.getName()));
     query.setParameter("permission_lists", entity.getPermissions());
     query.setParameter("rights_level", entity.getRightslevel());
     
@@ -60,7 +61,7 @@ public class RolesControler
     query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
     query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
 
-    query.setParameter("role_id", id);
+    query.setParameter("role_id", GeneralFunction.checkNullString(id));
     return query;
   }
 }

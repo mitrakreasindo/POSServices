@@ -56,11 +56,12 @@ public class RolesFacadeREST extends AbstractFacade<Roles>
   }
 
   @PUT
-  @Path("{kode}")
+  @Path("{kode}/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public HashMap<Integer, String> edit(@PathParam("kode") String kodeMerchant, Roles entity)
+  public HashMap<Integer, String> edit(@PathParam("kode") String kodeMerchant, @PathParam("id") String id, Roles entity)
   {
+    entity.setId(id);
     return GeneralController.executeSP(RolesControler.sp_edit(em, kodeMerchant, entity));
   }
 
