@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -65,8 +66,8 @@ public class Categories implements Serializable
   @NotNull
   @Column(name = "catshowname")
   private boolean catshowname;
-  @Lob
   @Column(name = "image")
+  @Type(type="org.hibernate.type.BinaryType")
   private byte[] image;
   @Size(max = 50)
   @Column(name = "colour")
@@ -80,10 +81,10 @@ public class Categories implements Serializable
   private String siteguid;
   @Column(name = "sflag")
   private Boolean sflag;
-  @OneToMany(mappedBy = "parentid")
+  @OneToMany(mappedBy = "parentid", cascade = CascadeType.ALL, orphanRemoval = true)
   private Collection<Categories> categoriesCollection;
-  @JoinColumn(name = "parentid", referencedColumnName = "id")
-  @ManyToOne
+  @JoinColumn(name = "parentid", referencedColumnName = "id", nullable = true)
+  @ManyToOne(optional = true)
   private Categories parentid;
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
   private Collection<Products> productsCollection;

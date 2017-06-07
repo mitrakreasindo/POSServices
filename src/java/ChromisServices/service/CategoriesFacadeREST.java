@@ -28,7 +28,7 @@ import javax.ws.rs.core.MediaType;
  * @author Asun
  */
 @Stateless
-@Path("chromis.entities.categories")
+@Path("chromis.categories")
 public class CategoriesFacadeREST extends AbstractFacade<Categories>
 {
 
@@ -83,6 +83,7 @@ public class CategoriesFacadeREST extends AbstractFacade<Categories>
   @Produces(MediaType.APPLICATION_JSON)
   public List<Categories> findAll(@PathParam("kode") String kodeMerchant)
   {
+    List<Categories> p = super.findAll(kodeMerchant);
     return super.findAll(kodeMerchant);
   }
 
@@ -99,7 +100,7 @@ public class CategoriesFacadeREST extends AbstractFacade<Categories>
 
   @GET
   @Override
-  @Path("{kode}")
+  @Path("{kode}/count")
   @Produces(MediaType.TEXT_PLAIN)
   public int count(@PathParam("kode") String kodeMerchant)
   {

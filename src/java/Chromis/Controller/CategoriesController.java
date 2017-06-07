@@ -32,7 +32,14 @@ public class CategoriesController
     query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
 
     query.setParameter("category_name", GeneralFunction.checkNullString(entity.getName()));
-    query.setParameter("parent_id", GeneralFunction.checkNullString(entity.getParentid().getId()));
+    if(entity.getParentid() != null)
+    {
+      query.setParameter("parent_id", GeneralFunction.checkNullString(entity.getParentid().getId()));
+    }
+    else{
+      query.setParameter("parent_id", "");
+    }
+    
     query.setParameter("text_tip", GeneralFunction.checkNullString(entity.getTexttip()));
     query.setParameter("category_showname", entity.getCatshowname());
     query.setParameter("category_image", GeneralFunction.checkNullByte(entity.getImage()));

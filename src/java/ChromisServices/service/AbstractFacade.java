@@ -6,6 +6,7 @@
 package ChromisServices.service;
 
 import Chromis.Entities.Roles;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,8 +81,9 @@ public abstract class AbstractFacade<T>
   {
     try
     {
-      Query q = getEntityManager().createNativeQuery("SELECT count(1) FROM " + kodeMerchant + "."+entityClass.getSimpleName(), Integer.class);
-      return (Integer) q.getSingleResult();
+      Query q = getEntityManager().createNativeQuery("SELECT count(id) FROM " + kodeMerchant + "."+entityClass.getSimpleName());
+      BigInteger result = (BigInteger)q.getSingleResult();
+      return result.intValue();
     }
     catch (Exception e)
     {

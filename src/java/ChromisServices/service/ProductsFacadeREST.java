@@ -28,7 +28,7 @@ import javax.ws.rs.core.MediaType;
  * @author Asun
  */
 @Stateless
-@Path("chromis.entities.products")
+@Path("chromis.products")
 public class ProductsFacadeREST extends AbstractFacade<Products>
 {
 
@@ -83,7 +83,8 @@ public class ProductsFacadeREST extends AbstractFacade<Products>
   @Produces(MediaType.APPLICATION_JSON)
   public List<Products> findAll(@PathParam("kode") String kodeMerchant)
   {
-    return super.findAll(kodeMerchant);
+    List<Products> p = super.findAll(kodeMerchant);
+    return p;
   }
 
 //  @GET

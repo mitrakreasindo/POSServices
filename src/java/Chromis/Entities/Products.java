@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -135,8 +136,8 @@ public class Products implements Serializable
   @Size(max = 255)
   @Column(name = "display")
   private String display;
-  @Lob
   @Column(name = "attributes")
+  @Type(type="org.hibernate.type.BinaryType")
   private byte[] attributes;
   @Basic(optional = false)
   @NotNull
@@ -153,8 +154,8 @@ public class Products implements Serializable
   @NotNull
   @Column(name = "warranty")
   private boolean warranty;
-  @Lob
   @Column(name = "image")
+  @Type(type="org.hibernate.type.BinaryType")
   private byte[] image;
   @Basic(optional = false)
   @NotNull
