@@ -5,7 +5,7 @@
  */
 package ChromisServices.service;
 
-import Chromis.Entities.Attributeset;
+import Chromis.Entities.Locations;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,16 +25,16 @@ import javax.ws.rs.core.MediaType;
  * @author Asun
  */
 @Stateless
-@Path("chromis.attributeset")
-public class AttributesetFacadeREST extends AbstractFacade<Attributeset>
+@Path("chromis.entities.locations")
+public class LocationsFacadeREST extends AbstractFacade<Locations>
 {
 
   @PersistenceContext(unitName = "MKChromisServicesPU")
   private EntityManager em;
 
-  public AttributesetFacadeREST()
+  public LocationsFacadeREST()
   {
-    super(Attributeset.class);
+    super(Locations.class);
   }
 
   @Override

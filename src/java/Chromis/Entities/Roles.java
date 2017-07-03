@@ -12,7 +12,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -39,6 +38,10 @@ import org.hibernate.annotations.Type;
     , @NamedQuery(name = "Roles.findBySflag", query = "SELECT r FROM Roles r WHERE r.sflag = :sflag")})
 public class Roles implements Serializable {
 
+  @Type(type="org.hibernate.type.BinaryType")
+  @Column(name = "permissions")
+  private byte[] permissions;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -51,10 +54,6 @@ public class Roles implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
-    //@Lob
-    @Column(name = "permissions")
-    @Type(type="org.hibernate.type.BinaryType")
-    private byte[] permissions;
     @Basic(optional = false)
     @NotNull
     @Column(name = "rightslevel")
@@ -99,13 +98,6 @@ public class Roles implements Serializable {
         this.name = name;
     }
 
-    public byte[] getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(byte[] permissions) {
-        this.permissions = permissions;
-    }
 
     public int getRightslevel() {
         return rightslevel;
@@ -164,5 +156,15 @@ public class Roles implements Serializable {
     public String toString() {
         return "Chromis.Roles[ id=" + id + " ]";
     }
+
+  public byte[] getPermissions()
+  {
+    return permissions;
+  }
+
+  public void setPermissions(byte[] permissions)
+  {
+    this.permissions = permissions;
+  }
     
 }

@@ -5,42 +5,40 @@
  */
 package Chromis.Entities;
 
+import Chromis.Entities.Receipts;
+import Chromis.Entities.Taxes;
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Asun
  */
 @Entity
-@Table(name = "attributeset")
+@Table(name = "taxlines")
 @XmlRootElement
 @NamedQueries(
 {
-  @NamedQuery(name = "Attributeset.findAll", query = "SELECT a FROM Attributeset a")
-  , @NamedQuery(name = "Attributeset.findById", query = "SELECT a FROM Attributeset a WHERE a.id = :id")
-  , @NamedQuery(name = "Attributeset.findByName", query = "SELECT a FROM Attributeset a WHERE a.name = :name")
-  , @NamedQuery(name = "Attributeset.findBySiteguid", query = "SELECT a FROM Attributeset a WHERE a.siteguid = :siteguid")
-  , @NamedQuery(name = "Attributeset.findBySflag", query = "SELECT a FROM Attributeset a WHERE a.sflag = :sflag")
+  @NamedQuery(name = "Taxlines.findAll", query = "SELECT t FROM Taxlines t")
+  , @NamedQuery(name = "Taxlines.findById", query = "SELECT t FROM Taxlines t WHERE t.id = :id")
+  , @NamedQuery(name = "Taxlines.findByBase", query = "SELECT t FROM Taxlines t WHERE t.base = :base")
+  , @NamedQuery(name = "Taxlines.findByAmount", query = "SELECT t FROM Taxlines t WHERE t.amount = :amount")
+  , @NamedQuery(name = "Taxlines.findBySiteguid", query = "SELECT t FROM Taxlines t WHERE t.siteguid = :siteguid")
+  , @NamedQuery(name = "Taxlines.findBySflag", query = "SELECT t FROM Taxlines t WHERE t.sflag = :sflag")
 })
-public class Attributeset implements Serializable
+public class Taxlines implements Serializable
 {
-
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "attributesetId")
-  private Collection<Attributesetinstance> attributesetinstanceCollection;
 
   private static final long serialVersionUID = 1L;
   @Id
@@ -51,9 +49,12 @@ public class Attributeset implements Serializable
   private String id;
   @Basic(optional = false)
   @NotNull
-  @Size(min = 1, max = 255)
-  @Column(name = "name")
-  private String name;
+  @Column(name = "base")
+  private double base;
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "amount")
+  private double amount;
   @Basic(optional = false)
   @NotNull
   @Size(min = 1, max = 50)
@@ -61,22 +62,27 @@ public class Attributeset implements Serializable
   private String siteguid;
   @Column(name = "sflag")
   private Boolean sflag;
-  @OneToMany(mappedBy = "attributesetId")
-  private Collection<Products> productsCollection;
+  @JoinColumn(name = "receipt", referencedColumnName = "id")
+  @ManyToOne(optional = false)
+  private Receipts receipt;
+  @JoinColumn(name = "taxid", referencedColumnName = "id")
+  @ManyToOne(optional = false)
+  private Taxes taxid;
 
-  public Attributeset()
+  public Taxlines()
   {
   }
 
-  public Attributeset(String id)
+  public Taxlines(String id)
   {
     this.id = id;
   }
 
-  public Attributeset(String id, String name, String siteguid)
+  public Taxlines(String id, double base, double amount, String siteguid)
   {
     this.id = id;
-    this.name = name;
+    this.base = base;
+    this.amount = amount;
     this.siteguid = siteguid;
   }
 
@@ -90,14 +96,24 @@ public class Attributeset implements Serializable
     this.id = id;
   }
 
-  public String getName()
+  public double getBase()
   {
-    return name;
+    return base;
   }
 
-  public void setName(String name)
+  public void setBase(double base)
   {
-    this.name = name;
+    this.base = base;
+  }
+
+  public double getAmount()
+  {
+    return amount;
+  }
+
+  public void setAmount(double amount)
+  {
+    this.amount = amount;
   }
 
   public String getSiteguid()
@@ -120,15 +136,24 @@ public class Attributeset implements Serializable
     this.sflag = sflag;
   }
 
-  @XmlTransient
-  public Collection<Products> getProductsCollection()
+  public Receipts getReceipt()
   {
-    return productsCollection;
+    return receipt;
   }
 
-  public void setProductsCollection(Collection<Products> productsCollection)
+  public void setReceipt(Receipts receipt)
   {
-    this.productsCollection = productsCollection;
+    this.receipt = receipt;
+  }
+
+  public Taxes getTaxid()
+  {
+    return taxid;
+  }
+
+  public void setTaxid(Taxes taxid)
+  {
+    this.taxid = taxid;
   }
 
   @Override
@@ -143,11 +168,11 @@ public class Attributeset implements Serializable
   public boolean equals(Object object)
   {
     // TODO: Warning - this method won't work in the case the id fields are not set
-    if (!(object instanceof Attributeset))
+    if (!(object instanceof Taxlines))
     {
       return false;
     }
-    Attributeset other = (Attributeset) object;
+    Taxlines other = (Taxlines) object;
     if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
     {
       return false;
@@ -158,18 +183,7 @@ public class Attributeset implements Serializable
   @Override
   public String toString()
   {
-    return "Chromis.Entities.Attributeset[ id=" + id + " ]";
-  }
-
-  @XmlTransient
-  public Collection<Attributesetinstance> getAttributesetinstanceCollection()
-  {
-    return attributesetinstanceCollection;
-  }
-
-  public void setAttributesetinstanceCollection(Collection<Attributesetinstance> attributesetinstanceCollection)
-  {
-    this.attributesetinstanceCollection = attributesetinstanceCollection;
+    return "Chromis.TempEntities.Taxlines[ id=" + id + " ]";
   }
   
 }

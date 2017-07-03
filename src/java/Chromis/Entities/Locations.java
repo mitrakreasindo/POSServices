@@ -8,10 +8,10 @@ package Chromis.Entities;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -26,35 +26,25 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Asun
  */
 @Entity
-@Table(name = "promotions")
+@Table(name = "locations")
 @XmlRootElement
 @NamedQueries(
 {
-  @NamedQuery(name = "Promotions.findAll", query = "SELECT p FROM Promotions p")
-  , @NamedQuery(name = "Promotions.findById", query = "SELECT p FROM Promotions p WHERE p.id = :id")
-  , @NamedQuery(name = "Promotions.findByName", query = "SELECT p FROM Promotions p WHERE p.name = :name")
-  , @NamedQuery(name = "Promotions.findByAllproducts", query = "SELECT p FROM Promotions p WHERE p.allproducts = :allproducts")
-  , @NamedQuery(name = "Promotions.findByIsenabled", query = "SELECT p FROM Promotions p WHERE p.isenabled = :isenabled")
-  , @NamedQuery(name = "Promotions.findBySiteguid", query = "SELECT p FROM Promotions p WHERE p.siteguid = :siteguid")
-  , @NamedQuery(name = "Promotions.findBySflag", query = "SELECT p FROM Promotions p WHERE p.sflag = :sflag")
+  @NamedQuery(name = "Locations.findAll", query = "SELECT l FROM Locations l")
+  , @NamedQuery(name = "Locations.findById", query = "SELECT l FROM Locations l WHERE l.id = :id")
+  , @NamedQuery(name = "Locations.findByName", query = "SELECT l FROM Locations l WHERE l.name = :name")
+  , @NamedQuery(name = "Locations.findByAddress", query = "SELECT l FROM Locations l WHERE l.address = :address")
+  , @NamedQuery(name = "Locations.findBySiteguid", query = "SELECT l FROM Locations l WHERE l.siteguid = :siteguid")
+  , @NamedQuery(name = "Locations.findBySflag", query = "SELECT l FROM Locations l WHERE l.sflag = :sflag")
 })
-public class Promotions implements Serializable
+public class Locations implements Serializable
 {
-
-  @Lob
-  @Column(name = "criteria")
-  private byte[] criteria;
-  @Basic(optional = false)
-  @NotNull
-  @Lob
-  @Column(name = "script")
-  private byte[] script;
 
   private static final long serialVersionUID = 1L;
   @Id
   @Basic(optional = false)
   @NotNull
-  @Size(min = 1, max = 50)
+  @Size(min = 1, max = 255)
   @Column(name = "id")
   private String id;
   @Basic(optional = false)
@@ -62,10 +52,9 @@ public class Promotions implements Serializable
   @Size(min = 1, max = 255)
   @Column(name = "name")
   private String name;
-  @Column(name = "allproducts")
-  private Boolean allproducts;
-  @Column(name = "isenabled")
-  private Boolean isenabled;
+  @Size(max = 255)
+  @Column(name = "address")
+  private String address;
   @Basic(optional = false)
   @NotNull
   @Size(min = 1, max = 50)
@@ -73,23 +62,22 @@ public class Promotions implements Serializable
   private String siteguid;
   @Column(name = "sflag")
   private Boolean sflag;
-  @OneToMany(mappedBy = "promotionid")
-  private Collection<Products> productsCollection;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "location")
+  private Collection<Stockdiary> stockdiaryCollection;
 
-  public Promotions()
+  public Locations()
   {
   }
 
-  public Promotions(String id)
+  public Locations(String id)
   {
     this.id = id;
   }
 
-  public Promotions(String id, String name, byte[] script, String siteguid)
+  public Locations(String id, String name, String siteguid)
   {
     this.id = id;
     this.name = name;
-    this.script = script;
     this.siteguid = siteguid;
   }
 
@@ -113,25 +101,14 @@ public class Promotions implements Serializable
     this.name = name;
   }
 
-
-  public Boolean getAllproducts()
+  public String getAddress()
   {
-    return allproducts;
+    return address;
   }
 
-  public void setAllproducts(Boolean allproducts)
+  public void setAddress(String address)
   {
-    this.allproducts = allproducts;
-  }
-
-  public Boolean getIsenabled()
-  {
-    return isenabled;
-  }
-
-  public void setIsenabled(Boolean isenabled)
-  {
-    this.isenabled = isenabled;
+    this.address = address;
   }
 
   public String getSiteguid()
@@ -155,14 +132,14 @@ public class Promotions implements Serializable
   }
 
   @XmlTransient
-  public Collection<Products> getProductsCollection()
+  public Collection<Stockdiary> getStockdiaryCollection()
   {
-    return productsCollection;
+    return stockdiaryCollection;
   }
 
-  public void setProductsCollection(Collection<Products> productsCollection)
+  public void setStockdiaryCollection(Collection<Stockdiary> stockdiaryCollection)
   {
-    this.productsCollection = productsCollection;
+    this.stockdiaryCollection = stockdiaryCollection;
   }
 
   @Override
@@ -177,11 +154,11 @@ public class Promotions implements Serializable
   public boolean equals(Object object)
   {
     // TODO: Warning - this method won't work in the case the id fields are not set
-    if (!(object instanceof Promotions))
+    if (!(object instanceof Locations))
     {
       return false;
     }
-    Promotions other = (Promotions) object;
+    Locations other = (Locations) object;
     if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
     {
       return false;
@@ -192,27 +169,7 @@ public class Promotions implements Serializable
   @Override
   public String toString()
   {
-    return "Chromis.Entities.Promotions[ id=" + id + " ]";
-  }
-
-  public byte[] getCriteria()
-  {
-    return criteria;
-  }
-
-  public void setCriteria(byte[] criteria)
-  {
-    this.criteria = criteria;
-  }
-
-  public byte[] getScript()
-  {
-    return script;
-  }
-
-  public void setScript(byte[] script)
-  {
-    this.script = script;
+    return "Chromis.Entities.Locations[ id=" + id + " ]";
   }
   
 }

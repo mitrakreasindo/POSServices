@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
 /**
  *
@@ -26,6 +27,13 @@ public class GeneralFunction {
     public static String checkNullString(String input){
         if(input == null){
             return "";
+        }
+        else return input;
+    }
+    
+    public static Date checkNullDate(Date input){
+        if(input == null){
+            return new Date();
         }
         else return input;
     }

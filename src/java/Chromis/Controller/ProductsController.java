@@ -19,8 +19,10 @@ public class ProductsController
 {
   public static StoredProcedureQuery sp_create(EntityManager em, String kodeMerchant, Products entity)
   {
+    String validator = "";
     StoredProcedureQuery query = em.createStoredProcedureQuery(kodeMerchant+".insert_product");
     // define the stored procedure
+    query.registerStoredProcedureParameter("product_id", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("product_reference", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("product_code", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("product_codetype", String.class, ParameterMode.IN);
@@ -61,15 +63,26 @@ public class ProductsController
     query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
     query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
 
+    query.setParameter("product_id", GeneralFunction.checkNullString(entity.getId()));
     query.setParameter("product_reference", GeneralFunction.checkNullString(entity.getReference()));
     query.setParameter("product_code", GeneralFunction.checkNullString(entity.getCode()));
     query.setParameter("product_codetype", GeneralFunction.checkNullString(entity.getCodetype()));
     query.setParameter("product_name", GeneralFunction.checkNullString(entity.getName()));
     query.setParameter("price_buy", entity.getPricebuy());
     query.setParameter("price_sell", entity.getPricesell());
-    query.setParameter("product_category", GeneralFunction.checkNullString(entity.getCategory().getId()));
-    query.setParameter("tax_category", GeneralFunction.checkNullString(entity.getTaxcat().getId()));
-    query.setParameter("product_attributeset_id", GeneralFunction.checkNullString(entity.getAttributesetId().getId()));
+    
+    validator = "";
+    if(entity.getCategory() != null) validator = entity.getCategory().getId();
+    query.setParameter("product_category", validator);
+    
+    validator = "";
+    if(entity.getTaxcat() != null) validator = entity.getTaxcat().getId();
+    query.setParameter("tax_category", validator);
+    
+    validator = "";
+    if(entity.getAttributesetId() != null) validator = entity.getAttributesetId().getId();
+    query.setParameter("product_attributeset_id", validator);
+    
     query.setParameter("stock_cost", entity.getStockcost());
     query.setParameter("stock_volume", entity.getStockvolume());
     query.setParameter("is_com", entity.getIscom());
@@ -94,8 +107,14 @@ public class ProductsController
     query.setParameter("cat_order", entity.getCatorder());
     query.setParameter("is_pack", entity.getIspack());
     query.setParameter("pack_quantity", entity.getPackquantity());
-    query.setParameter("pack_product", GeneralFunction.checkNullString(entity.getPackproduct().getId()));
-    query.setParameter("promotion_id", GeneralFunction.checkNullString(entity.getPromotionid().getId()));
+    
+    validator = "";
+    if(entity.getPackproduct() != null) validator = entity.getPackproduct().getId();
+    query.setParameter("pack_product", validator);
+    
+    validator = "";
+    if(entity.getPromotionid() != null) validator = entity.getPromotionid().getId();
+    query.setParameter("promotion_id", validator);
     query.setParameter("all_products", entity.getAllproducts());
     query.setParameter("manage_stock", entity.getManagestock());
     
@@ -104,6 +123,7 @@ public class ProductsController
   
   public static StoredProcedureQuery sp_edit(EntityManager em, String kodeMerchant, Products entity)
   {
+    String validator = "";
     StoredProcedureQuery query = em.createStoredProcedureQuery(kodeMerchant+".update_product");
     // define the stored procedure
     query.registerStoredProcedureParameter("product_id", String.class, ParameterMode.IN);
@@ -154,9 +174,19 @@ public class ProductsController
     query.setParameter("product_name", GeneralFunction.checkNullString(entity.getName()));
     query.setParameter("price_buy", entity.getPricebuy());
     query.setParameter("price_sell", entity.getPricesell());
-    query.setParameter("product_category", GeneralFunction.checkNullString(entity.getCategory().getId()));
-    query.setParameter("tax_category", GeneralFunction.checkNullString(entity.getTaxcat().getId()));
-    query.setParameter("product_attributeset_id", GeneralFunction.checkNullString(entity.getAttributesetId().getId()));
+    
+   validator = "";
+    if(entity.getCategory() != null) validator = entity.getCategory().getId();
+    query.setParameter("product_category", validator);
+    
+    validator = "";
+    if(entity.getTaxcat() != null) validator = entity.getTaxcat().getId();
+    query.setParameter("tax_category", validator);
+    
+    validator = "";
+    if(entity.getAttributesetId() != null) validator = entity.getAttributesetId().getId();
+    query.setParameter("product_attributeset_id", validator);
+
     query.setParameter("stock_cost", entity.getStockcost());
     query.setParameter("stock_volume", entity.getStockvolume());
     query.setParameter("is_com", entity.getIscom());
@@ -181,8 +211,15 @@ public class ProductsController
     query.setParameter("cat_order", entity.getCatorder());
     query.setParameter("is_pack", entity.getIspack());
     query.setParameter("pack_quantity", entity.getPackquantity());
-    query.setParameter("pack_product", GeneralFunction.checkNullString(entity.getPackproduct().getId()));
-    query.setParameter("promotion_id", GeneralFunction.checkNullString(entity.getPromotionid().getId()));
+    
+    validator = "";
+    if(entity.getPackproduct() != null) validator = entity.getPackproduct().getId();
+    query.setParameter("pack_product", validator);
+    
+    validator = "";
+    if(entity.getPromotionid() != null) validator = entity.getPromotionid().getId();
+    query.setParameter("promotion_id", validator);
+    
     query.setParameter("all_products", entity.getAllproducts());
     query.setParameter("manage_stock", entity.getManagestock());
     

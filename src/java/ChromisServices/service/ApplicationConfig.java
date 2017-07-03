@@ -29,14 +29,26 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(ChromisServices.service.AttributesetFacadeREST.class);
-        resources.add(ChromisServices.service.CategoriesFacadeREST.class);
+    resources.add(ChromisServices.service.AttributesetFacadeREST.class);
+    resources.add(ChromisServices.service.AttributesetinstanceFacadeREST.class);
+    resources.add(ChromisServices.service.CategoriesFacadeREST.class);
+    resources.add(ChromisServices.service.ClosedcashFacadeREST.class);
+    resources.add(ChromisServices.service.CustomersFacadeREST.class);
+    resources.add(ChromisServices.service.LocationsFacadeREST.class);
     resources.add(ChromisServices.service.MerchantsFacadeREST.class);
+    resources.add(ChromisServices.service.PaymentsFacadeREST.class);
     resources.add(ChromisServices.service.PeopleFacadeREST.class);
     resources.add(ChromisServices.service.ProductsFacadeREST.class);
     resources.add(ChromisServices.service.PromotionsFacadeREST.class);
+    resources.add(ChromisServices.service.ReceiptsFacadeREST.class);
     resources.add(ChromisServices.service.RolesFacadeREST.class);
+    resources.add(ChromisServices.service.StockCurrentFacadeREST.class);
+    resources.add(ChromisServices.service.StockdiaryFacadeREST.class);
     resources.add(ChromisServices.service.TaxcategoriesFacadeREST.class);
+    resources.add(ChromisServices.service.TaxcustcategoriesFacadeREST.class);
+    resources.add(ChromisServices.service.TaxesFacadeREST.class);
+    resources.add(ChromisServices.service.TicketlinesFacadeREST.class);
+    resources.add(ChromisServices.service.TicketsFacadeREST.class);
     }
     
 }

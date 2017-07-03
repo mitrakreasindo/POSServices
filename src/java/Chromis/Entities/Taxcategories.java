@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Taxcategories implements Serializable
 {
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+  private Collection<Taxes> taxesCollection;
+
   private static final long serialVersionUID = 1L;
   @Id
   @Basic(optional = false)
@@ -156,6 +159,17 @@ public class Taxcategories implements Serializable
   public String toString()
   {
     return "Chromis.Entities.Taxcategories[ id=" + id + " ]";
+  }
+
+  @XmlTransient
+  public Collection<Taxes> getTaxesCollection()
+  {
+    return taxesCollection;
+  }
+
+  public void setTaxesCollection(Collection<Taxes> taxesCollection)
+  {
+    this.taxesCollection = taxesCollection;
   }
   
 }

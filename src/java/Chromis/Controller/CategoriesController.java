@@ -21,6 +21,7 @@ public class CategoriesController
   {
     StoredProcedureQuery query = em.createStoredProcedureQuery(kodeMerchant + ".insert_category");
     // define the stored procedure
+    query.registerStoredProcedureParameter("category_id", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("category_name", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("parent_id", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("text_tip", String.class, ParameterMode.IN);
@@ -31,7 +32,6 @@ public class CategoriesController
     query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
     query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
 
-    query.setParameter("category_name", GeneralFunction.checkNullString(entity.getName()));
     if(entity.getParentid() != null)
     {
       query.setParameter("parent_id", GeneralFunction.checkNullString(entity.getParentid().getId()));
@@ -40,6 +40,8 @@ public class CategoriesController
       query.setParameter("parent_id", "");
     }
     
+    query.setParameter("category_id", GeneralFunction.checkNullString(entity.getId()));
+    query.setParameter("category_name", GeneralFunction.checkNullString(entity.getName()));
     query.setParameter("text_tip", GeneralFunction.checkNullString(entity.getTexttip()));
     query.setParameter("category_showname", entity.getCatshowname());
     query.setParameter("category_image", GeneralFunction.checkNullByte(entity.getImage()));
@@ -66,7 +68,13 @@ public class CategoriesController
 
     query.setParameter("category_id", GeneralFunction.checkNullString(entity.getId()));
     query.setParameter("category_name", GeneralFunction.checkNullString(entity.getName()));
-    query.setParameter("parent_id", GeneralFunction.checkNullString(entity.getParentid().getId()));
+    if(entity.getParentid() != null)
+    {
+      query.setParameter("parent_id", GeneralFunction.checkNullString(entity.getParentid().getId()));
+    }
+    else{
+      query.setParameter("parent_id", "");
+    }
     query.setParameter("text_tip", GeneralFunction.checkNullString(entity.getTexttip()));
     query.setParameter("category_showname", entity.getCatshowname());
     query.setParameter("category_image", GeneralFunction.checkNullByte(entity.getImage()));

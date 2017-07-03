@@ -13,7 +13,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -47,6 +46,10 @@ import org.hibernate.annotations.Type;
 public class Categories implements Serializable
 {
 
+  @Type(type="org.hibernate.type.BinaryType")
+  @Column(name = "image")
+  private byte[] image;
+
   private static final long serialVersionUID = 1L;
   @Id
   @Basic(optional = false)
@@ -66,9 +69,6 @@ public class Categories implements Serializable
   @NotNull
   @Column(name = "catshowname")
   private boolean catshowname;
-  @Column(name = "image")
-  @Type(type="org.hibernate.type.BinaryType")
-  private byte[] image;
   @Size(max = 50)
   @Column(name = "colour")
   private String colour;
@@ -146,15 +146,6 @@ public class Categories implements Serializable
     this.catshowname = catshowname;
   }
 
-  public byte[] getImage()
-  {
-    return image;
-  }
-
-  public void setImage(byte[] image)
-  {
-    this.image = image;
-  }
 
   public String getColour()
   {
@@ -256,6 +247,16 @@ public class Categories implements Serializable
   public String toString()
   {
     return "Chromis.Entities.Categories[ id=" + id + " ]";
+  }
+
+  public byte[] getImage()
+  {
+    return image;
+  }
+
+  public void setImage(byte[] image)
+  {
+    this.image = image;
   }
   
 }

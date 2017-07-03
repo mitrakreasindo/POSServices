@@ -21,12 +21,14 @@ public class RolesControler
   {
     StoredProcedureQuery query = em.createStoredProcedureQuery(kodeMerchant + ".insert_role");
     // define the stored procedure
+    query.registerStoredProcedureParameter("role_id", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("role_name", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("permission_lists", byte[].class, ParameterMode.IN);
     query.registerStoredProcedureParameter("rights_level", Integer.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
     query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
 
+    query.setParameter("role_id", GeneralFunction.checkNullString(entity.getId()));
     query.setParameter("role_name", GeneralFunction.checkNullString(entity.getName()));
     query.setParameter("permission_lists", entity.getPermissions());
     query.setParameter("rights_level", entity.getRightslevel());

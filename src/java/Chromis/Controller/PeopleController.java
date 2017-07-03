@@ -21,6 +21,7 @@ public class PeopleController
   {
     StoredProcedureQuery query = em.createStoredProcedureQuery(kodeMerchant + ".insert_user");
     // define the stored procedure
+    query.registerStoredProcedureParameter("person_id", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("person_name", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("app_pass", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("email_addr", String.class, ParameterMode.IN);
@@ -31,6 +32,7 @@ public class PeopleController
     query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
     query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
 
+    query.setParameter("person_id", GeneralFunction.checkNullString(entity.getId()));
     query.setParameter("person_name", GeneralFunction.checkNullString(entity.getName()));
     query.setParameter("card_no", GeneralFunction.checkNullString(entity.getCard()));
     query.setParameter("email_addr", GeneralFunction.checkNullString(entity.getEmail()));
@@ -64,12 +66,21 @@ public class PeopleController
     query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
     query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
 
-    query.setParameter("person_id", GeneralFunction.checkNullString(entity.getName()));
+    query.setParameter("person_id", GeneralFunction.checkNullString(entity.getId()));
     query.setParameter("person_name", GeneralFunction.checkNullString(entity.getName()));
     query.setParameter("card_no", GeneralFunction.checkNullString(entity.getCard()));
     query.setParameter("person_role", GeneralFunction.checkNullString(entity.getRole().getId()));
     query.setParameter("visibility", entity.getVisible());
     query.setParameter("image_code", GeneralFunction.checkNullByte(entity.getImage()));
+    
+    try
+    {
+      query.setParameter("app_pass", GeneralFunction.checkNullString(GeneralFunction.encryptPassword(entity.getApppassword())));
+    }
+    catch (Exception e)
+    {
+      //return 
+    }
     
     return query;
   }

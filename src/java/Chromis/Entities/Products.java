@@ -8,11 +8,11 @@ package Chromis.Entities;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -70,6 +70,16 @@ import org.hibernate.annotations.Type;
 })
 public class Products implements Serializable
 {
+  @Type(type="org.hibernate.type.BinaryType")
+  @Column(name = "attributes")
+  private byte[] attributes;
+  @Type(type="org.hibernate.type.BinaryType")
+  @Column(name = "image")
+  private byte[] image;
+  @OneToMany(mappedBy = "product")
+  private Collection<Ticketlines> ticketlinesCollection;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+  private Collection<Stockdiary> stockdiaryCollection;
 
   private static final long serialVersionUID = 1L;
   @Id
@@ -136,9 +146,6 @@ public class Products implements Serializable
   @Size(max = 255)
   @Column(name = "display")
   private String display;
-  @Column(name = "attributes")
-  @Type(type="org.hibernate.type.BinaryType")
-  private byte[] attributes;
   @Basic(optional = false)
   @NotNull
   @Column(name = "isvprice")
@@ -154,9 +161,6 @@ public class Products implements Serializable
   @NotNull
   @Column(name = "warranty")
   private boolean warranty;
-  @Column(name = "image")
-  @Type(type="org.hibernate.type.BinaryType")
-  private byte[] image;
   @Basic(optional = false)
   @NotNull
   @Column(name = "stockunits")
@@ -407,15 +411,6 @@ public class Products implements Serializable
     this.display = display;
   }
 
-  public byte[] getAttributes()
-  {
-    return attributes;
-  }
-
-  public void setAttributes(byte[] attributes)
-  {
-    this.attributes = attributes;
-  }
 
   public boolean getIsvprice()
   {
@@ -457,15 +452,6 @@ public class Products implements Serializable
     this.warranty = warranty;
   }
 
-  public byte[] getImage()
-  {
-    return image;
-  }
-
-  public void setImage(byte[] image)
-  {
-    this.image = image;
-  }
 
   public double getStockunits()
   {
@@ -686,6 +672,48 @@ public class Products implements Serializable
   public String toString()
   {
     return "Chromis.Entities.Products[ id=" + id + " ]";
+  }
+
+  public byte[] getAttributes()
+  {
+    return attributes;
+  }
+
+  public void setAttributes(byte[] attributes)
+  {
+    this.attributes = attributes;
+  }
+
+  public byte[] getImage()
+  {
+    return image;
+  }
+
+  public void setImage(byte[] image)
+  {
+    this.image = image;
+  }
+
+  @XmlTransient
+  public Collection<Ticketlines> getTicketlinesCollection()
+  {
+    return ticketlinesCollection;
+  }
+
+  public void setTicketlinesCollection(Collection<Ticketlines> ticketlinesCollection)
+  {
+    this.ticketlinesCollection = ticketlinesCollection;
+  }
+
+  @XmlTransient
+  public Collection<Stockdiary> getStockdiaryCollection()
+  {
+    return stockdiaryCollection;
+  }
+
+  public void setStockdiaryCollection(Collection<Stockdiary> stockdiaryCollection)
+  {
+    this.stockdiaryCollection = stockdiaryCollection;
   }
   
 }

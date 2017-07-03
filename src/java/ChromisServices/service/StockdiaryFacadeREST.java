@@ -6,8 +6,8 @@
 package ChromisServices.service;
 
 import Chromis.Controller.GeneralController;
-import Chromis.Controller.ProductsController;
-import Chromis.Entities.Products;
+import Chromis.Controller.StockDiaryController;
+import Chromis.Entities.Stockdiary;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -28,62 +28,62 @@ import javax.ws.rs.core.MediaType;
  * @author Asun
  */
 @Stateless
-@Path("chromis.products")
-public class ProductsFacadeREST extends AbstractFacade<Products>
+@Path("chromis.stockdiary")
+public class StockdiaryFacadeREST extends AbstractFacade<Stockdiary>
 {
 
   @PersistenceContext(unitName = "MKChromisServicesPU")
   private EntityManager em;
 
-  public ProductsFacadeREST()
+  public StockdiaryFacadeREST()
   {
-    super(Products.class);
+    super(Stockdiary.class);
   }
 
   @POST
   @Path("{kode}")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public HashMap<Integer, String> create(@PathParam("kode") String kodeMerchant, Products entity)
+  public HashMap<Integer, String> create(@PathParam("kode") String kodeMerchant, Stockdiary entity)
   {
-    return GeneralController.executeSP(ProductsController.sp_create(em, kodeMerchant, entity));
+    return GeneralController.executeSP(StockDiaryController.sp_create(em, kodeMerchant, entity));
   }
 
-  @PUT
-  @Path("{kode}/{id}")
-  @Produces(MediaType.APPLICATION_JSON)
-  @Consumes(MediaType.APPLICATION_JSON)
-  public HashMap<Integer, String> edit(@PathParam("kode") String kodeMerchant, @PathParam("id") String id, Products entity)
-  {
-    entity.setId(id);
-    return GeneralController.executeSP(ProductsController.sp_edit(em, kodeMerchant, entity));
-  }
+//  @PUT
+//  @Path("{id}")
+//  @Consumes(
+//  {
+//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
+//  })
+//  public void edit(@PathParam("id") String id, Stockdiary entity)
+//  {
+//    super.edit(entity);
+//  }
 
-  @DELETE
-  @Path("{kode}/{id}")
-  @Produces(MediaType.APPLICATION_JSON)
-  @Consumes(MediaType.APPLICATION_JSON)
-  public HashMap<Integer, String> remove(@PathParam("kode") String kodeMerchant, @PathParam("id") String id)
-  {
-    return GeneralController.executeSP(ProductsController.sp_remove(em, kodeMerchant, id));
-  }
+//  @DELETE
+//  @Path("{id}")
+//  public void remove(@PathParam("id") String id)
+//  {
+//    super.remove(super.find(id));
+//  }
 
   @GET
   @Override
   @Path("{kode}/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Products find(@PathParam("kode") String kodeMerchant, @PathParam("id") String id)
+  public Stockdiary find(@PathParam("kode") String kodeMerchant, @PathParam("id") String id)
   {
     return super.find(kodeMerchant, id);
   }
 
+  //Select all rows from table
   @GET
   @Override
   @Path("{kode}")
   @Produces(MediaType.APPLICATION_JSON)
-  public List<Products> findAll(@PathParam("kode") String kodeMerchant)
+  public List<Stockdiary> findAll(@PathParam("kode") String kodeMerchant)
   {
-    List<Products> p = super.findAll(kodeMerchant);
+    List<Stockdiary> p = super.findAll(kodeMerchant);
     return p;
   }
 
@@ -95,7 +95,7 @@ public class ProductsFacadeREST extends AbstractFacade<Products>
   {
     return super.count(kodeMerchant);
   }
-
+  
   @Override
   protected EntityManager getEntityManager()
   {
