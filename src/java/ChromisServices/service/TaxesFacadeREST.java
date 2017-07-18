@@ -5,7 +5,10 @@
  */
 package ChromisServices.service;
 
+import Chromis.Controller.GeneralController;
+import Chromis.Controller.TaxesController;
 import Chromis.Entities.Taxes;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,7 +28,7 @@ import javax.ws.rs.core.MediaType;
  * @author Asun
  */
 @Stateless
-@Path("chromis.entities.taxes")
+@Path("chromis.taxes")
 public class TaxesFacadeREST extends AbstractFacade<Taxes>
 {
 
@@ -37,6 +40,64 @@ public class TaxesFacadeREST extends AbstractFacade<Taxes>
     super(Taxes.class);
   }
 
+  @POST
+  @Path("{kode}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public HashMap<Integer, String> create(@PathParam("kode") String kodeMerchant, Taxes entity)
+  {
+    return GeneralController.executeSP(TaxesController.sp_create(em, kodeMerchant, entity));
+  }
+
+  @PUT
+  @Path("{kode}/{id}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public HashMap<Integer, String> edit(@PathParam("kode") String kodeMerchant, @PathParam("id") String id, Taxes entity)
+  {
+    entity.setId(id);
+    return GeneralController.executeSP(TaxesController.sp_edit(em, kodeMerchant, entity));
+  }
+
+  @DELETE
+  @Path("{kode}/{id}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public HashMap<Integer, String> remove(@PathParam("kode") String kodeMerchant, @PathParam("id") String id)
+  {
+    return GeneralController.executeSP(TaxesController.sp_remove(em, kodeMerchant, id));
+  }
+
+  //Find entity by ID
+  @GET
+  @Override
+  @Path("{kode}/{id}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Taxes find(@PathParam("kode") String kodeMerchant, @PathParam("id") String id)
+  {
+    return super.find(kodeMerchant, id);
+  }
+
+  //Select all rows from table
+  @GET
+  @Override
+  @Path("{kode}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public List<Taxes> findAll(@PathParam("kode") String kodeMerchant)
+  {
+    List<Taxes> p = super.findAll(kodeMerchant);
+    return p;
+  }
+
+  @GET
+  @Override
+  @Path("{kode}/count")
+  @Produces(MediaType.TEXT_PLAIN)
+  public int count(@PathParam("kode") String kodeMerchant)
+  {
+    return super.count(kodeMerchant);
+  }
+  
   @Override
   protected EntityManager getEntityManager()
   {

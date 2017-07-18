@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -34,6 +35,13 @@ public class GeneralFunction {
     public static Date checkNullDate(Date input){
         if(input == null){
             return new Date();
+        }
+        else return input;
+    }
+    
+    public static LocalDateTime checkNullDate(LocalDateTime input){
+        if(input == null){
+            return LocalDateTime.now();
         }
         else return input;
     }

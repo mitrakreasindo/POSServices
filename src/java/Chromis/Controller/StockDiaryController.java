@@ -41,15 +41,15 @@ public class StockDiaryController
     
     validator = "";
     if(entity.getLocation() != null) validator = entity.getLocation().getId();
-    query.setParameter("product_location", validator);
+    query.setParameter("product_location", GeneralFunction.checkNullString(validator));
     
     validator = "";
     if(entity.getProduct()!= null) validator = entity.getProduct().getId();
-    query.setParameter("product_id", validator);
+    query.setParameter("product_id", GeneralFunction.checkNullString(validator));
     
     validator = "";
     if(entity.getAttributesetinstanceId() != null) validator = entity.getAttributesetinstanceId().getId();
-    query.setParameter("attribute_set_instance_id", validator);
+    query.setParameter("attribute_set_instance_id", GeneralFunction.checkNullString(validator));
     
     query.setParameter("product_units", entity.getUnits());
     query.setParameter("price", entity.getPrice());

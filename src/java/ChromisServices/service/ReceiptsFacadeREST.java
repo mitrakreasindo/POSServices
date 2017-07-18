@@ -6,6 +6,8 @@
 package ChromisServices.service;
 
 import Chromis.Entities.Receipts;
+import Chromis.Entities.Taxes;
+import Chromis.Entities.ViewReceipts;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,8 +27,8 @@ import javax.ws.rs.core.MediaType;
  * @author Asun
  */
 @Stateless
-@Path("chromis.entities.receipts")
-public class ReceiptsFacadeREST extends AbstractFacade<Receipts>
+@Path("chromis.receipts")
+public class ReceiptsFacadeREST extends AbstractFacade<ViewReceipts>
 {
 
   @PersistenceContext(unitName = "MKChromisServicesPU")
@@ -34,7 +36,7 @@ public class ReceiptsFacadeREST extends AbstractFacade<Receipts>
 
   public ReceiptsFacadeREST()
   {
-    super(Receipts.class);
+    super(ViewReceipts.class);
   }
 
 //  @POST
@@ -66,47 +68,36 @@ public class ReceiptsFacadeREST extends AbstractFacade<Receipts>
 //    super.remove(super.find(id));
 //  }
 //
-//  @GET
-//  @Path("{id}")
-//  @Produces(
-//  {
-//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-//  })
-//  public Receipts find(@PathParam("id") String id)
-//  {
-//    return super.find(id);
-//  }
-//
-//  @GET
-//  @Override
-//  @Produces(
-//  {
-//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-//  })
-//  public List<Receipts> findAll()
-//  {
-//    return super.findAll();
-//  }
-//
-//  @GET
-//  @Path("{from}/{to}")
-//  @Produces(
-//  {
-//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-//  })
-//  public List<Receipts> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to)
-//  {
-//    return super.findRange(new int[]{from, to});
-//  }
-//
-//  @GET
-//  @Path("count")
-//  @Produces(MediaType.TEXT_PLAIN)
-//  public String countREST()
-//  {
-//    return String.valueOf(super.count());
-//  }
+//Find entity by ID
+  @GET
+  @Override
+  @Path("{kode}/{id}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public ViewReceipts find(@PathParam("kode") String kodeMerchant, @PathParam("id") String id)
+  {
+    return super.find(kodeMerchant, id);
+  }
 
+  //Select all rows from table
+  @GET
+  @Override
+  @Path("{kode}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public List<ViewReceipts> findAll(@PathParam("kode") String kodeMerchant)
+  {
+    List<ViewReceipts> p = super.findAll(kodeMerchant);
+    return p;
+  }
+
+  @GET
+  @Override
+  @Path("{kode}/count")
+  @Produces(MediaType.TEXT_PLAIN)
+  public int count(@PathParam("kode") String kodeMerchant)
+  {
+    return super.count(kodeMerchant);
+  }
+  
   @Override
   protected EntityManager getEntityManager()
   {

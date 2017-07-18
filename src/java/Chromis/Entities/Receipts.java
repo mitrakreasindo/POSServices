@@ -27,6 +27,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -47,7 +48,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Receipts implements Serializable
 {
 
-  @Lob
+  @Type(type="org.hibernate.type.BinaryType")
   @Column(name = "attributes")
   private byte[] attributes;
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "receipt")

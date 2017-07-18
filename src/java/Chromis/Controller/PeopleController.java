@@ -59,6 +59,7 @@ public class PeopleController
     query.registerStoredProcedureParameter("person_id", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("person_name", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("app_pass", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("email_addr", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("card_no", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("person_role", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("visibility", Boolean.class, ParameterMode.IN);
@@ -72,10 +73,16 @@ public class PeopleController
     query.setParameter("person_role", GeneralFunction.checkNullString(entity.getRole().getId()));
     query.setParameter("visibility", entity.getVisible());
     query.setParameter("image_code", GeneralFunction.checkNullByte(entity.getImage()));
+    query.setParameter("email_addr", GeneralFunction.checkNullString(entity.getEmail()));
     
     try
     {
-      query.setParameter("app_pass", GeneralFunction.checkNullString(GeneralFunction.encryptPassword(entity.getApppassword())));
+      if(entity.getApppassword() == "" || entity.getApppassword() == null){
+        query.setParameter("app_pass", "");
+      }
+      else{
+        query.setParameter("app_pass", GeneralFunction.encryptPassword(entity.getApppassword()));
+      }
     }
     catch (Exception e)
     {

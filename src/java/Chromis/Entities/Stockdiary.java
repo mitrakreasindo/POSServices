@@ -6,7 +6,9 @@
 package Chromis.Entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,11 +18,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -53,8 +57,10 @@ public class Stockdiary implements Serializable
   private String id;
   @Basic(optional = false)
   @NotNull
-  @Column(name = "datenew", columnDefinition="DATETIME")
+  @Column(name = "datenew")
+  //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   @Temporal(TemporalType.TIMESTAMP)
+  @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
   private Date datenew;
   @Basic(optional = false)
   @NotNull
@@ -119,10 +125,10 @@ public class Stockdiary implements Serializable
 
   public Date getDatenew()
   {
-    return datenew;
+      return datenew;
   }
 
-  public void setDatenew(Date datenew)
+  public void setDatenew(Date datenew) throws ParseException
   {
     this.datenew = datenew;
   }

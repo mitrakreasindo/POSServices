@@ -55,7 +55,7 @@ public abstract class AbstractFacade<T>
   {
     try
     {
-      Query q = getEntityManager().createNativeQuery("SELECT * FROM " + kodeMerchant + "." + entityClass.getSimpleName() + " where id = '" + id + "'", entityClass);
+      Query q = getEntityManager().createNativeQuery("SELECT * FROM " + kodeMerchant + "." + entityClass.getSimpleName() + " where id = '" + id + "' and sflag = true", entityClass);
       return (T) q.getSingleResult();
     }
     catch (Exception e)
@@ -68,7 +68,7 @@ public abstract class AbstractFacade<T>
   {
     try
     {
-      Query q = getEntityManager().createNativeQuery("SELECT * FROM " + kodeMerchant + "." + entityClass.getSimpleName(), entityClass);
+      Query q = getEntityManager().createNativeQuery("SELECT * FROM " + kodeMerchant + "." + entityClass.getSimpleName() + " where sflag = true", entityClass);
       return q.getResultList();
     }
     catch (Exception e)
@@ -81,7 +81,7 @@ public abstract class AbstractFacade<T>
   {
     try
     {
-      Query q = getEntityManager().createNativeQuery("SELECT count(id) FROM " + kodeMerchant + "."+entityClass.getSimpleName());
+      Query q = getEntityManager().createNativeQuery("SELECT count(id) FROM " + kodeMerchant + "."+entityClass.getSimpleName() + " where sflag = true");
       BigInteger result = (BigInteger)q.getSingleResult();
       return result.intValue();
     }
