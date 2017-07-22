@@ -5,7 +5,6 @@
  */
 package ChromisServices.service;
 
-import Chromis.Entities.Viewtickets;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,7 +26,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Stateless
 @Path("chromis.tickets")
-public class TicketsFacadeREST extends AbstractFacade<Viewtickets>
+public class TicketsFacadeREST extends AbstractFacade<String>
 {
 
   @PersistenceContext(unitName = "MKChromisServicesPU")
@@ -35,67 +34,41 @@ public class TicketsFacadeREST extends AbstractFacade<Viewtickets>
 
   public TicketsFacadeREST()
   {
-    super(Viewtickets.class);
+    super(String.class);
   }
 
-//  @POST
+//  @GET
 //  @Override
-//  @Consumes(
+//  @Path("{kode}/{id}")
+//  @Produces(MediaType.APPLICATION_JSON)
+//  public Viewtickets find(@PathParam("kode") String kodeMerchant, @PathParam("id") String id)
 //  {
-//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-//  })
-//  public void create(Tickets entity)
-//  {
-//    super.create(entity);
+//    return super.find(kodeMerchant, id);
 //  }
 //
-//  @PUT
-//  @Path("{id}")
-//  @Consumes(
+//  //Select all rows from table
+//  @GET
+//  @Override
+//  @Path("{kode}")
+//  @Produces(MediaType.APPLICATION_JSON)
+//  public List<Viewtickets> findAll(@PathParam("kode") String kodeMerchant)
 //  {
-//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-//  })
-//  public void edit(@PathParam("id") String id, Tickets entity)
-//  {
-//    super.edit(entity);
+////    Query q = em.createNativeQuery("Select t, l from viewtickets t join viewticketlines l on t.id = l.ticket", Viewtickets.class);
+////    List<Viewtickets> p = q.getResultList();
+//      List<Viewtickets> p = super.findAll(kodeMerchant);
+//    //em.merge(this)
+//    
+//    return p;
 //  }
 //
-//  @DELETE
-//  @Path("{id}")
-//  public void remove(@PathParam("id") String id)
+//  @GET
+//  @Override
+//  @Path("{kode}/count")
+//  @Produces(MediaType.TEXT_PLAIN)
+//  public int count(@PathParam("kode") String kodeMerchant)
 //  {
-//    super.remove(super.find(id));
+//    return super.count(kodeMerchant);
 //  }
-//
-  @GET
-  @Override
-  @Path("{kode}/{id}")
-  @Produces(MediaType.APPLICATION_JSON)
-  public Viewtickets find(@PathParam("kode") String kodeMerchant, @PathParam("id") String id)
-  {
-    return super.find(kodeMerchant, id);
-  }
-
-  //Select all rows from table
-  @GET
-  @Override
-  @Path("{kode}")
-  @Produces(MediaType.APPLICATION_JSON)
-  public List<Viewtickets> findAll(@PathParam("kode") String kodeMerchant)
-  {
-    //Query q = em.createNativeQuery("Select t from viewtickets t join fetch t.ticketlin")
-    List<Viewtickets> p = super.findAll(kodeMerchant);
-    return p;
-  }
-
-  @GET
-  @Override
-  @Path("{kode}/count")
-  @Produces(MediaType.TEXT_PLAIN)
-  public int count(@PathParam("kode") String kodeMerchant)
-  {
-    return super.count(kodeMerchant);
-  }
 
   @Override
   protected EntityManager getEntityManager()

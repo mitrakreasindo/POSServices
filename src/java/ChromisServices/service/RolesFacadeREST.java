@@ -5,19 +5,14 @@
  */
 package ChromisServices.service;
 
-import Chromis.Entities.Roles;
 import Chromis.Controller.GeneralController;
+import Chromis.Controller.RolesControler;
+import Chromis.Entities.Roles;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.ParameterMode;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.StoredProcedureQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -27,7 +22,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import Chromis.Controller.RolesControler;
 
 /**
  *
@@ -109,22 +103,5 @@ public class RolesFacadeREST extends AbstractFacade<Roles>
   {
     return em;
   }
-
-  //  @GET
-//  @Path("{kode}/{from}/{to}")
-//  @Produces(MediaType.APPLICATION_JSON)
-//  public List<Roles> findRange(@PathParam("kode") String kodeMerchant, @PathParam("from") Integer from, @PathParam("to") Integer to)
-//  {
-//    return super.findRange(new int[]
-//    {
-//      from, to
-//    });
-//  }
-
-//    @GET
-//    @Path("{from}/{to}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public List<Roles> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-//        return super.findRange(new int[]{from, to});
-//    }
+  
 }

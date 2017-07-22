@@ -9,47 +9,49 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.Type;
 
 /**
  *
  * @author Asun
  */
 @Entity
-@Table(name = "viewticketlines")
+@Table(name = "viewsalesitems")
 @XmlRootElement
 @NamedQueries(
 {
-  @NamedQuery(name = "Viewticketlines.findAll", query = "SELECT v FROM Viewticketlines v")
-  , @NamedQuery(name = "Viewticketlines.findByTicket", query = "SELECT v FROM Viewticketlines v WHERE v.ticket = :ticket")
-  , @NamedQuery(name = "Viewticketlines.findByLine", query = "SELECT v FROM Viewticketlines v WHERE v.line = :line")
-  , @NamedQuery(name = "Viewticketlines.findByProduct", query = "SELECT v FROM Viewticketlines v WHERE v.product = :product")
-  , @NamedQuery(name = "Viewticketlines.findByAttributesetinstanceId", query = "SELECT v FROM Viewticketlines v WHERE v.attributesetinstanceId = :attributesetinstanceId")
-  , @NamedQuery(name = "Viewticketlines.findByUnits", query = "SELECT v FROM Viewticketlines v WHERE v.units = :units")
-  , @NamedQuery(name = "Viewticketlines.findByPrice", query = "SELECT v FROM Viewticketlines v WHERE v.price = :price")
-  , @NamedQuery(name = "Viewticketlines.findByTaxid", query = "SELECT v FROM Viewticketlines v WHERE v.taxid = :taxid")
-  , @NamedQuery(name = "Viewticketlines.findByRefundqty", query = "SELECT v FROM Viewticketlines v WHERE v.refundqty = :refundqty")
-  , @NamedQuery(name = "Viewticketlines.findBySiteguid", query = "SELECT v FROM Viewticketlines v WHERE v.siteguid = :siteguid")
-  , @NamedQuery(name = "Viewticketlines.findBySflag", query = "SELECT v FROM Viewticketlines v WHERE v.sflag = :sflag")
-  , @NamedQuery(name = "Viewticketlines.findByProductName", query = "SELECT v FROM Viewticketlines v WHERE v.productName = :productName")
-  , @NamedQuery(name = "Viewticketlines.findByTaxName", query = "SELECT v FROM Viewticketlines v WHERE v.taxName = :taxName")
-  , @NamedQuery(name = "Viewticketlines.findByRate", query = "SELECT v FROM Viewticketlines v WHERE v.rate = :rate")
+  @NamedQuery(name = "Viewsalesitems.findAll", query = "SELECT v FROM Viewsalesitems v")
+  , @NamedQuery(name = "Viewsalesitems.findById", query = "SELECT v FROM Viewsalesitems v WHERE v.id = :id")
+  , @NamedQuery(name = "Viewsalesitems.findBySalesId", query = "SELECT v FROM Viewsalesitems v WHERE v.salesId = :salesId")
+  , @NamedQuery(name = "Viewsalesitems.findByLine", query = "SELECT v FROM Viewsalesitems v WHERE v.line = :line")
+  , @NamedQuery(name = "Viewsalesitems.findByProduct", query = "SELECT v FROM Viewsalesitems v WHERE v.product = :product")
+  , @NamedQuery(name = "Viewsalesitems.findByAttributesetinstanceId", query = "SELECT v FROM Viewsalesitems v WHERE v.attributesetinstanceId = :attributesetinstanceId")
+  , @NamedQuery(name = "Viewsalesitems.findByUnits", query = "SELECT v FROM Viewsalesitems v WHERE v.units = :units")
+  , @NamedQuery(name = "Viewsalesitems.findByPrice", query = "SELECT v FROM Viewsalesitems v WHERE v.price = :price")
+  , @NamedQuery(name = "Viewsalesitems.findByTaxid", query = "SELECT v FROM Viewsalesitems v WHERE v.taxid = :taxid")
+  , @NamedQuery(name = "Viewsalesitems.findByRefundqty", query = "SELECT v FROM Viewsalesitems v WHERE v.refundqty = :refundqty")
+  , @NamedQuery(name = "Viewsalesitems.findBySiteguid", query = "SELECT v FROM Viewsalesitems v WHERE v.siteguid = :siteguid")
+  , @NamedQuery(name = "Viewsalesitems.findBySflag", query = "SELECT v FROM Viewsalesitems v WHERE v.sflag = :sflag")
+  , @NamedQuery(name = "Viewsalesitems.findByProductName", query = "SELECT v FROM Viewsalesitems v WHERE v.productName = :productName")
+  , @NamedQuery(name = "Viewsalesitems.findByTaxName", query = "SELECT v FROM Viewsalesitems v WHERE v.taxName = :taxName")
+  , @NamedQuery(name = "Viewsalesitems.findByRate", query = "SELECT v FROM Viewsalesitems v WHERE v.rate = :rate")
 })
-public class Viewticketlines implements Serializable
+public class Viewsalesitems implements Serializable
 {
 
   private static final long serialVersionUID = 1L;
-  @Size(max = 255)
+  @Column(name = "id")
   @Id
-  @Column(name = "ticket")
-  private String ticket;
+  private Integer id;
+  @Size(max = 255)
+  @Column(name = "salesId")
+  private String salesId;
   @Column(name = "line")
   private Integer line;
   @Size(max = 255)
@@ -66,7 +68,7 @@ public class Viewticketlines implements Serializable
   @Size(max = 255)
   @Column(name = "taxid")
   private String taxid;
-  @Lob
+  @Type(type="org.hibernate.type.BinaryType")
   @Column(name = "attributes")
   private byte[] attributes;
   @Column(name = "refundqty")
@@ -85,32 +87,28 @@ public class Viewticketlines implements Serializable
   @Column(name = "rate")
   private Double rate;
 
-//  @JoinColumn(name = "id", insertable = false, updatable = false)
-//  @ManyToOne(optional = false)
-//  private Viewtickets tickets;
-//  
-//  public Viewtickets getTickets()
-//  {
-//    return tickets;
-//  }
-//
-//  public void setTickets(Viewtickets tickets)
-//  {
-//    this.tickets = tickets;
-//  }
-//  
-  public Viewticketlines()
+  public Viewsalesitems()
   {
   }
 
-  public String getTicket()
+  public Integer getId()
   {
-    return ticket;
+    return id;
   }
 
-  public void setTicket(String ticket)
+  public void setId(Integer id)
   {
-    this.ticket = ticket;
+    this.id = id;
+  }
+
+  public String getSalesId()
+  {
+    return salesId;
+  }
+
+  public void setSalesId(String salesId)
+  {
+    this.salesId = salesId;
   }
 
   public Integer getLine()

@@ -6,19 +6,13 @@
 package Chromis.Entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,18 +22,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Asun
  */
 @Entity
-@Table(name = "receipts")
+@Table(name = "sales")
 @XmlRootElement
 @NamedQueries(
 {
-  @NamedQuery(name = "Receipts.findAll", query = "SELECT r FROM Receipts r")
-  , @NamedQuery(name = "Receipts.findById", query = "SELECT r FROM Receipts r WHERE r.id = :id")
-  , @NamedQuery(name = "Receipts.findByDatenew", query = "SELECT r FROM Receipts r WHERE r.datenew = :datenew")
-  , @NamedQuery(name = "Receipts.findByPerson", query = "SELECT r FROM Receipts r WHERE r.person = :person")
-  , @NamedQuery(name = "Receipts.findBySiteguid", query = "SELECT r FROM Receipts r WHERE r.siteguid = :siteguid")
-  , @NamedQuery(name = "Receipts.findBySflag", query = "SELECT r FROM Receipts r WHERE r.sflag = :sflag")
+  @NamedQuery(name = "Sales.findAll", query = "SELECT s FROM Sales s")
+  , @NamedQuery(name = "Sales.findById", query = "SELECT s FROM Sales s WHERE s.id = :id")
+  , @NamedQuery(name = "Sales.findByTickettype", query = "SELECT s FROM Sales s WHERE s.tickettype = :tickettype")
+  , @NamedQuery(name = "Sales.findByTicketid", query = "SELECT s FROM Sales s WHERE s.ticketid = :ticketid")
+  , @NamedQuery(name = "Sales.findByStatus", query = "SELECT s FROM Sales s WHERE s.status = :status")
+  , @NamedQuery(name = "Sales.findBySiteguid", query = "SELECT s FROM Sales s WHERE s.siteguid = :siteguid")
+  , @NamedQuery(name = "Sales.findBySflag", query = "SELECT s FROM Sales s WHERE s.sflag = :sflag")
 })
-public class Receipts implements Serializable
+public class Sales implements Serializable
 {
 
   private static final long serialVersionUID = 1L;
@@ -51,15 +46,16 @@ public class Receipts implements Serializable
   private String id;
   @Basic(optional = false)
   @NotNull
-  @Column(name = "datenew")
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date datenew;
-  @Size(max = 255)
-  @Column(name = "person")
-  private String person;
-  @Lob
-  @Column(name = "attributes")
-  private byte[] attributes;
+  @Column(name = "tickettype")
+  private int tickettype;
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "ticketid")
+  private int ticketid;
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "status")
+  private int status;
   @Basic(optional = false)
   @NotNull
   @Size(min = 1, max = 50)
@@ -67,23 +63,22 @@ public class Receipts implements Serializable
   private String siteguid;
   @Column(name = "sflag")
   private Boolean sflag;
-  @JoinColumn(name = "money", referencedColumnName = "money")
-  @ManyToOne(optional = false)
-  private Closedcash money;
 
-  public Receipts()
+  public Sales()
   {
   }
 
-  public Receipts(String id)
+  public Sales(String id)
   {
     this.id = id;
   }
 
-  public Receipts(String id, Date datenew, String siteguid)
+  public Sales(String id, int tickettype, int ticketid, int status, String siteguid)
   {
     this.id = id;
-    this.datenew = datenew;
+    this.tickettype = tickettype;
+    this.ticketid = ticketid;
+    this.status = status;
     this.siteguid = siteguid;
   }
 
@@ -97,34 +92,34 @@ public class Receipts implements Serializable
     this.id = id;
   }
 
-  public Date getDatenew()
+  public int getTickettype()
   {
-    return datenew;
+    return tickettype;
   }
 
-  public void setDatenew(Date datenew)
+  public void setTickettype(int tickettype)
   {
-    this.datenew = datenew;
+    this.tickettype = tickettype;
   }
 
-  public String getPerson()
+  public int getTicketid()
   {
-    return person;
+    return ticketid;
   }
 
-  public void setPerson(String person)
+  public void setTicketid(int ticketid)
   {
-    this.person = person;
+    this.ticketid = ticketid;
   }
 
-  public byte[] getAttributes()
+  public int getStatus()
   {
-    return attributes;
+    return status;
   }
 
-  public void setAttributes(byte[] attributes)
+  public void setStatus(int status)
   {
-    this.attributes = attributes;
+    this.status = status;
   }
 
   public String getSiteguid()
@@ -147,16 +142,6 @@ public class Receipts implements Serializable
     this.sflag = sflag;
   }
 
-  public Closedcash getMoney()
-  {
-    return money;
-  }
-
-  public void setMoney(Closedcash money)
-  {
-    this.money = money;
-  }
-
   @Override
   public int hashCode()
   {
@@ -169,11 +154,11 @@ public class Receipts implements Serializable
   public boolean equals(Object object)
   {
     // TODO: Warning - this method won't work in the case the id fields are not set
-    if (!(object instanceof Receipts))
+    if (!(object instanceof Sales))
     {
       return false;
     }
-    Receipts other = (Receipts) object;
+    Sales other = (Sales) object;
     if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
     {
       return false;
@@ -184,7 +169,7 @@ public class Receipts implements Serializable
   @Override
   public String toString()
   {
-    return "Chromis.Entities.Receipts[ id=" + id + " ]";
+    return "Chromis.Entities.Sales[ id=" + id + " ]";
   }
   
 }

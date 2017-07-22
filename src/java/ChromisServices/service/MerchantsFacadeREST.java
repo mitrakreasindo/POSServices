@@ -5,8 +5,14 @@
  */
 package ChromisServices.service;
 
+import Chromis.Controller.GeneralController;
+import Chromis.Controller.MerchantController;
+import Chromis.Entities.MerchantRegistration;
 import Chromis.Entities.Merchants;
+import Chromis.Utilities.GeneralFunction;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,7 +31,7 @@ import javax.ws.rs.core.MediaType;
  * @author Asun
  */
 @Stateless
-@Path("chromis.entities.merchants")
+@Path("chromis.merchants")
 public class MerchantsFacadeREST extends AbstractFacade<Merchants>
 {
 
@@ -37,75 +43,39 @@ public class MerchantsFacadeREST extends AbstractFacade<Merchants>
     super(Merchants.class);
   }
 
-//  @POST
-//  @Override
-//  @Consumes(
-//  {
-//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-//  })
-//  public void create(Merchants entity)
-//  {
-//    super.create(entity);
-//  }
-//
-//  @PUT
-//  @Path("{id}")
-//  @Consumes(
-//  {
-//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-//  })
-//  public void edit(@PathParam("id") String id, Merchants entity)
-//  {
-//    super.edit(entity);
-//  }
-//
-//  @DELETE
-//  @Path("{id}")
-//  public void remove(@PathParam("id") String id)
-//  {
-//    super.remove(super.find(id));
-//  }
-//
-//  @GET
-//  @Path("{id}")
-//  @Produces(
-//  {
-//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-//  })
-//  public Merchants find(@PathParam("id") String id)
-//  {
-//    return super.find(id);
-//  }
-//
-//  @GET
-//  @Override
-//  @Produces(
-//  {
-//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-//  })
-//  public List<Merchants> findAll()
-//  {
-//    return super.findAll();
-//  }
-//
-//  @GET
-//  @Path("{from}/{to}")
-//  @Produces(
-//  {
-//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-//  })
-//  public List<Merchants> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to)
-//  {
-//    return super.findRange(new int[]{from, to});
-//  }
-//
-//  @GET
-//  @Path("count")
-//  @Produces(MediaType.TEXT_PLAIN)
-//  public String countREST()
-//  {
-//    return String.valueOf(super.count());
-//  }
+  @POST
+  @Path("{kode}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public HashMap<Integer, String> create(MerchantRegistration entities)
+  {
+    HashMap<Integer, String> result = new HashMap<Integer, String>();
+    
+    //Generate password
+    String generatedpassword = GeneralFunction.generatePassword();
+    //String generatedpassword = "Admin1234!";
+    String username = entities.getMerchant().getCode()+ "_admin";
+    entities.getPeople().setApppassword(generatedpassword);
+    entities.getPeople().setName(generatedpassword);
+    
+    //Exec sp
+    HashMap<Integer, String> spresult = new HashMap<Integer, String>();
+    spresult = GeneralController.executeSP(MerchantController.sp_create(em, entities));
+    
+    //If succes or return = 1 than send email
+    Map.Entry<Integer,String> entry = spresult.entrySet().iterator().next();
+    if(entry.getKey() == 1)
+    {
+        boolean isSent = GeneralFunction.sendRegistrationMail(entities);
+        if(isSent == false)
+        {
+          result.put(1, "Registrasi merchant berhasil dan terdapat kendala dalam pengiriman email. Mohon hubungi contact yang tersedia.");
+          return result;
+        }
+    }
+    
+    return spresult;
+  }
 
   @Override
   protected EntityManager getEntityManager()

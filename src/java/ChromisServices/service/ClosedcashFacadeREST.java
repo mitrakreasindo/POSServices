@@ -37,6 +37,76 @@ public class ClosedcashFacadeREST extends AbstractFacade<Closedcash>
     super(Closedcash.class);
   }
 
+//  @POST
+//  @Override
+//  @Consumes(
+//  {
+//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
+//  })
+//  public void create(Closedcash entity)
+//  {
+//    super.create(entity);
+//  }
+//
+//  @PUT
+//  @Path("{id}")
+//  @Consumes(
+//  {
+//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
+//  })
+//  public void edit(@PathParam("id") String id, Closedcash entity)
+//  {
+//    super.edit(entity);
+//  }
+//
+//  @DELETE
+//  @Path("{id}")
+//  public void remove(@PathParam("id") String id)
+//  {
+//    super.remove(super.find(id));
+//  }
+//
+//  @GET
+//  @Path("{id}")
+//  @Produces(
+//  {
+//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
+//  })
+//  public Closedcash find(@PathParam("id") String id)
+//  {
+//    return super.find(id);
+//  }
+//
+//  @GET
+//  @Override
+//  @Produces(
+//  {
+//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
+//  })
+//  public List<Closedcash> findAll()
+//  {
+//    return super.findAll();
+//  }
+//
+//  @GET
+//  @Path("{from}/{to}")
+//  @Produces(
+//  {
+//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
+//  })
+//  public List<Closedcash> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to)
+//  {
+//    return super.findRange(new int[]{from, to});
+//  }
+//
+//  @GET
+//  @Path("count")
+//  @Produces(MediaType.TEXT_PLAIN)
+//  public String countREST()
+//  {
+//    return String.valueOf(super.count());
+//  }
+
   @Override
   protected EntityManager getEntityManager()
   {

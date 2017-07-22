@@ -6,22 +6,22 @@
 package Chromis.Entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import org.hibernate.annotations.Type;
 
 /**
@@ -36,19 +36,26 @@ import org.hibernate.annotations.Type;
   @NamedQuery(name = "People.findAll", query = "SELECT p FROM People p")
   , @NamedQuery(name = "People.findById", query = "SELECT p FROM People p WHERE p.id = :id")
   , @NamedQuery(name = "People.findByName", query = "SELECT p FROM People p WHERE p.name = :name")
+  , @NamedQuery(name = "People.findByApppassword", query = "SELECT p FROM People p WHERE p.apppassword = :apppassword")
   , @NamedQuery(name = "People.findByCard", query = "SELECT p FROM People p WHERE p.card = :card")
   , @NamedQuery(name = "People.findByVisible", query = "SELECT p FROM People p WHERE p.visible = :visible")
   , @NamedQuery(name = "People.findBySiteguid", query = "SELECT p FROM People p WHERE p.siteguid = :siteguid")
   , @NamedQuery(name = "People.findBySflag", query = "SELECT p FROM People p WHERE p.sflag = :sflag")
   , @NamedQuery(name = "People.findByEmail", query = "SELECT p FROM People p WHERE p.email = :email")
+  , @NamedQuery(name = "People.findByFullname", query = "SELECT p FROM People p WHERE p.fullname = :fullname")
+  , @NamedQuery(name = "People.findByPersonalIdType", query = "SELECT p FROM People p WHERE p.personalIdType = :personalIdType")
+  , @NamedQuery(name = "People.findByPersonalId", query = "SELECT p FROM People p WHERE p.personalId = :personalId")
+  , @NamedQuery(name = "People.findByNpwpPribadi", query = "SELECT p FROM People p WHERE p.npwpPribadi = :npwpPribadi")
+  , @NamedQuery(name = "People.findByPhoneNumber", query = "SELECT p FROM People p WHERE p.phoneNumber = :phoneNumber")
+  , @NamedQuery(name = "People.findByGender", query = "SELECT p FROM People p WHERE p.gender = :gender")
+  , @NamedQuery(name = "People.findByBirthdate", query = "SELECT p FROM People p WHERE p.birthdate = :birthdate")
 })
 public class People implements Serializable
 {
+
   @Type(type="org.hibernate.type.BinaryType")
   @Column(name = "image")
   private byte[] image;
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-  private Collection<Tickets> ticketsCollection;
 
   private static final long serialVersionUID = 1L;
   @Id
@@ -62,7 +69,7 @@ public class People implements Serializable
   private String name;
   @Size(max = 255)
   @Column(name = "apppassword")
-  private transient String apppassword;
+  private String apppassword;
   @Size(max = 255)
   @Column(name = "card")
   private String card;
@@ -81,6 +88,27 @@ public class People implements Serializable
   @Size(max = 255)
   @Column(name = "email")
   private String email;
+  @Size(max = 255)
+  @Column(name = "fullname")
+  private String fullname;
+  @Size(max = 255)
+  @Column(name = "personal_id_type")
+  private String personalIdType;
+  @Size(max = 255)
+  @Column(name = "personal_id")
+  private String personalId;
+  @Size(max = 255)
+  @Column(name = "npwp_pribadi")
+  private String npwpPribadi;
+  @Size(max = 255)
+  @Column(name = "phone_number")
+  private String phoneNumber;
+  @Size(max = 10)
+  @Column(name = "gender")
+  private String gender;
+  @Column(name = "birthdate")
+  @Temporal(TemporalType.DATE)
+  private Date birthdate;
   @JoinColumn(name = "role", referencedColumnName = "id")
   @ManyToOne(optional = false)
   private Roles role;
@@ -151,6 +179,7 @@ public class People implements Serializable
     this.visible = visible;
   }
 
+
   public String getSiteguid()
   {
     return siteguid;
@@ -179,6 +208,76 @@ public class People implements Serializable
   public void setEmail(String email)
   {
     this.email = email;
+  }
+
+  public String getFullname()
+  {
+    return fullname;
+  }
+
+  public void setFullname(String fullname)
+  {
+    this.fullname = fullname;
+  }
+
+  public String getPersonalIdType()
+  {
+    return personalIdType;
+  }
+
+  public void setPersonalIdType(String personalIdType)
+  {
+    this.personalIdType = personalIdType;
+  }
+
+  public String getPersonalId()
+  {
+    return personalId;
+  }
+
+  public void setPersonalId(String personalId)
+  {
+    this.personalId = personalId;
+  }
+
+  public String getNpwpPribadi()
+  {
+    return npwpPribadi;
+  }
+
+  public void setNpwpPribadi(String npwpPribadi)
+  {
+    this.npwpPribadi = npwpPribadi;
+  }
+
+  public String getPhoneNumber()
+  {
+    return phoneNumber;
+  }
+
+  public void setPhoneNumber(String phoneNumber)
+  {
+    this.phoneNumber = phoneNumber;
+  }
+
+  public String getGender()
+  {
+    return gender;
+  }
+
+  public void setGender(String gender)
+  {
+    this.gender = gender;
+  }
+
+  public Date getBirthdate()
+  {
+    return birthdate;
+  }
+
+  public void setBirthdate(Date birthdate)
+  {
+    this.birthdate = birthdate;
   }
 
   public Roles getRole()
@@ -218,7 +317,7 @@ public class People implements Serializable
   @Override
   public String toString()
   {
-    return "Chromis.People[ id=" + id + " ]";
+    return "Chromis.Entities.People[ id=" + id + " ]";
   }
 
   public byte[] getImage()
@@ -230,16 +329,5 @@ public class People implements Serializable
   {
     this.image = image;
   }
-
-  @XmlTransient
-  public Collection<Tickets> getTicketsCollection()
-  {
-    return ticketsCollection;
-  }
-
-  public void setTicketsCollection(Collection<Tickets> ticketsCollection)
-  {
-    this.ticketsCollection = ticketsCollection;
-  }
-
+  
 }

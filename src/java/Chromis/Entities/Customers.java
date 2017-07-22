@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Chromis.Entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,14 +16,12 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -64,11 +60,8 @@ import javax.xml.bind.annotation.XmlTransient;
   , @NamedQuery(name = "Customers.findBySiteguid", query = "SELECT c FROM Customers c WHERE c.siteguid = :siteguid")
   , @NamedQuery(name = "Customers.findBySflag", query = "SELECT c FROM Customers c WHERE c.sflag = :sflag")
 })
-public class Customers implements Serializable {
-
-  @Lob
-  @Column(name = "image")
-  private byte[] image;
+public class Customers implements Serializable
+{
 
   private static final long serialVersionUID = 1L;
   @Id
@@ -149,6 +142,9 @@ public class Customers implements Serializable {
   // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
   @Column(name = "curdebt")
   private Double curdebt;
+  @Lob
+  @Column(name = "image")
+  private byte[] image;
   @Column(name = "discount")
   private Double discount;
   @Column(name = "dob")
@@ -161,8 +157,6 @@ public class Customers implements Serializable {
   private String siteguid;
   @Column(name = "sflag")
   private Boolean sflag;
-  @OneToMany(mappedBy = "customer")
-  private Collection<Tickets> ticketsCollection;
   @JoinColumn(name = "taxcategory", referencedColumnName = "id")
   @ManyToOne
   private Taxcustcategories taxcategory;
@@ -406,6 +400,15 @@ public class Customers implements Serializable {
     this.curdebt = curdebt;
   }
 
+  public byte[] getImage()
+  {
+    return image;
+  }
+
+  public void setImage(byte[] image)
+  {
+    this.image = image;
+  }
 
   public Double getDiscount()
   {
@@ -447,17 +450,6 @@ public class Customers implements Serializable {
     this.sflag = sflag;
   }
 
-  @XmlTransient
-  public Collection<Tickets> getTicketsCollection()
-  {
-    return ticketsCollection;
-  }
-
-  public void setTicketsCollection(Collection<Tickets> ticketsCollection)
-  {
-    this.ticketsCollection = ticketsCollection;
-  }
-
   public Taxcustcategories getTaxcategory()
   {
     return taxcategory;
@@ -497,15 +489,5 @@ public class Customers implements Serializable {
   {
     return "Chromis.Entities.Customers[ id=" + id + " ]";
   }
-
-  public byte[] getImage()
-  {
-    return image;
-  }
-
-  public void setImage(byte[] image)
-  {
-    this.image = image;
-  }
-
+  
 }

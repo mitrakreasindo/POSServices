@@ -5,10 +5,10 @@
  */
 package ChromisServices.service;
 
-import Chromis.Entities.People;
 import Chromis.Controller.GeneralController;
 import Chromis.Controller.PeopleController;
 import Chromis.Entities.Login;
+import Chromis.Entities.People;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -108,11 +108,11 @@ public class PeopleFacadeREST extends AbstractFacade<People>
   {
     return super.count(kodeMerchant);
   }
-  
+
   @Override
   protected EntityManager getEntityManager()
   {
     return em;
   }
-
+  
 }

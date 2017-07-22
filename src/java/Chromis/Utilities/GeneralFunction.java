@@ -5,12 +5,22 @@
  */
 package Chromis.Utilities;
 
+import Chromis.Entities.MerchantRegistration;
+import Chromis.Entities.People;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Properties;
+import java.util.Random;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.Message;
+import javax.mail.Transport;
 
 /**
  *
@@ -52,4 +62,114 @@ public class GeneralFunction {
         }
         else return input;
     }
+    
+    
+  public static String randomChar(String input, int position)
+  {
+    Random r = new Random();
+    return input.charAt(r.nextInt(position))+"";
+  }
+  
+  //Create 8 digit password
+  //  Password criteria : 
+  //-	8-10 char
+  //-	1 special character (character atas keyboard kecuali 9-0)
+  //-	1 digit
+  //-	1 lower
+  //-	1 upper
+  //-	No white space
+  public static String generatePassword()
+  {
+    String huruf = "abcdefghijklmnopqrstuvwxyz";
+    String spesial = "!@~-";
+    String angka = "0123456789";
+    
+    int huruflength = huruf.length();
+    int spesiallength = spesial.length();
+    int angkalength = angka.length();
+    
+    String satudua = randomChar(huruf, huruflength).toUpperCase() + randomChar(huruf, huruflength);
+    String tigaempat = randomChar(spesial, spesiallength) + randomChar(angka, angkalength);
+    String limaenam = randomChar(huruf, huruflength).toUpperCase() + randomChar(huruf, huruflength);
+    String tujulapan = randomChar(spesial, spesiallength) + randomChar(angka, angkalength);
+    
+    String password = satudua + tigaempat + limaenam + tujulapan;
+    
+    return password;
+  }
+  
+  public static String emailTemplate(MerchantRegistration entity)
+  {  
+    String content = "Dear, "+entity.getPeople().getFullname()+" <br><br>"
+            + "Selamat registrasi merchant anda berhasil.<br>"
+            + "Informasi akun anda adalah sebagai berikut : <br>"
+            + "<b>Merchant</b><br>"
+            + "Merchant Code : "+ entity.getMerchant().getCode()+" <br>"
+            + "Merchant Name : "+ entity.getMerchant().getName()+" <br>"
+            + "<b>Owner<br></b>"
+            + "Username : "+ entity.getPeople().getName()+" <br>"
+            + "Password : "+ entity.getPeople().getApppassword()+" <br><br>"
+            + "Silahkan gunakan kombinasi merchant code, username dan password anda untuk masuk ke aplikasi<br><br>"
+            + "Regards,<br>"
+            + "POS++ Team";
+    return content;
+  }
+  
+  //Send registration email
+  public static boolean sendRegistrationMail(MerchantRegistration entity)
+  {
+      String from = "pos@mitrakreasindo.com";
+      String todefault = "hendric@mitrakreasindo.com";
+      String to = entity.getPeople().getEmail();
+      String pwd = "pos54321";
+      
+      // Assuming you are sending email from localhost
+      String host = "mail.mitrakreasindo.com";
+
+      // Get system properties
+      Properties properties = System.getProperties();
+
+      // Setup mail server
+      properties.put("mail.smtp.host", host);
+      properties.put("mail.smtp.user", from);
+      properties.put("mail.smtp.password", pwd);
+      properties.put("mail.smtp.auth", "true");
+      properties.put("mail.smtp.starttls.enable", "true");
+      properties.put("mail.smtp.port", "587");
+      
+      // Get the default Session object.
+      Session session = Session.getDefaultInstance(properties);
+
+      try {
+         // Create a default MimeMessage object.
+         MimeMessage message = new MimeMessage(session);
+
+         // Set From: header field of the header.
+         message.setFrom(new InternetAddress(from));
+
+         // Set To: header field of the header.
+         message.addRecipient(Message.RecipientType.TO, new InternetAddress(todefault));
+         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+         // Set Subject: header field
+         message.setSubject("MK POS Regisrasi Merchant berhasil");
+
+         // Send the actual HTML message, as big as you like
+         message.setContent(emailTemplate(entity), "text/html");
+
+         // Send message
+         Transport transport = session.getTransport("smtp");
+         transport.connect(host, from, pwd);
+         transport.sendMessage(message, message.getAllRecipients());
+         transport.close();
+         //Transport.send(message);
+         System.out.println("Sent message successfully....");
+         
+         return true;
+      }catch (MessagingException mex) {
+         mex.printStackTrace();
+      }
+      return false;
+  }
+  
 }

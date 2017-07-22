@@ -7,6 +7,7 @@ package Chromis.Controller;
 
 import Chromis.Entities.People;
 import Chromis.Utilities.GeneralFunction;
+import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
@@ -24,7 +25,14 @@ public class PeopleController
     query.registerStoredProcedureParameter("person_id", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("person_name", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("app_pass", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("person_full_name", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("person_id_type", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("person_id_number", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("person_npwp", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("phone_num", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("email_addr", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("person_gender", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("person_birthdate", Date.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("card_no", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("person_role", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("visibility", Boolean.class, ParameterMode.IN);
@@ -32,6 +40,15 @@ public class PeopleController
     query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
     query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
 
+    //Mapping
+    query.setParameter("person_full_name", GeneralFunction.checkNullString(entity.getFullname()));
+    query.setParameter("person_id_type", GeneralFunction.checkNullString(entity.getPersonalIdType()));
+    query.setParameter("person_id_number", GeneralFunction.checkNullString(entity.getPersonalId()));
+    query.setParameter("person_npwp", GeneralFunction.checkNullString(entity.getNpwpPribadi()));
+    query.setParameter("phone_num", GeneralFunction.checkNullString(entity.getPhoneNumber()));
+    query.setParameter("person_gender", GeneralFunction.checkNullString(entity.getGender()));
+    query.setParameter("person_birthdate", entity.getBirthdate());
+    
     query.setParameter("person_id", GeneralFunction.checkNullString(entity.getId()));
     query.setParameter("person_name", GeneralFunction.checkNullString(entity.getName()));
     query.setParameter("card_no", GeneralFunction.checkNullString(entity.getCard()));
@@ -59,14 +76,29 @@ public class PeopleController
     query.registerStoredProcedureParameter("person_id", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("person_name", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("app_pass", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("person_full_name", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("person_id_type", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("person_id_number", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("person_npwp", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("phone_num", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("email_addr", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("person_gender", String.class, ParameterMode.IN);
+    query.registerStoredProcedureParameter("person_birthdate", Date.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("card_no", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("person_role", String.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("visibility", Boolean.class, ParameterMode.IN);
     query.registerStoredProcedureParameter("image_code", byte[].class, ParameterMode.IN);
     query.registerStoredProcedureParameter("retval", Integer.class, ParameterMode.OUT);
     query.registerStoredProcedureParameter("message", String.class, ParameterMode.OUT);
-
+    //Mapping
+    query.setParameter("person_full_name", GeneralFunction.checkNullString(entity.getFullname()));
+    query.setParameter("person_id_type", GeneralFunction.checkNullString(entity.getPersonalIdType()));
+    query.setParameter("person_id_number", GeneralFunction.checkNullString(entity.getPersonalId()));
+    query.setParameter("person_npwp", GeneralFunction.checkNullString(entity.getNpwpPribadi()));
+    query.setParameter("phone_num", GeneralFunction.checkNullString(entity.getPhoneNumber()));
+    query.setParameter("person_gender", GeneralFunction.checkNullString(entity.getGender()));
+    query.setParameter("person_birthdate", entity.getBirthdate());
+    
     query.setParameter("person_id", GeneralFunction.checkNullString(entity.getId()));
     query.setParameter("person_name", GeneralFunction.checkNullString(entity.getName()));
     query.setParameter("card_no", GeneralFunction.checkNullString(entity.getCard()));

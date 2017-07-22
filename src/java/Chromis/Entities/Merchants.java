@@ -10,6 +10,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -29,10 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
   @NamedQuery(name = "Merchants.findAll", query = "SELECT m FROM Merchants m")
   , @NamedQuery(name = "Merchants.findByCode", query = "SELECT m FROM Merchants m WHERE m.code = :code")
   , @NamedQuery(name = "Merchants.findByName", query = "SELECT m FROM Merchants m WHERE m.name = :name")
-  , @NamedQuery(name = "Merchants.findByPassword", query = "SELECT m FROM Merchants m WHERE m.password = :password")
   , @NamedQuery(name = "Merchants.findByEmail", query = "SELECT m FROM Merchants m WHERE m.email = :email")
   , @NamedQuery(name = "Merchants.findByPhone", query = "SELECT m FROM Merchants m WHERE m.phone = :phone")
   , @NamedQuery(name = "Merchants.findByAddress", query = "SELECT m FROM Merchants m WHERE m.address = :address")
+  , @NamedQuery(name = "Merchants.findByNpwpperusahaan", query = "SELECT m FROM Merchants m WHERE m.npwpperusahaan = :npwpperusahaan")
+  , @NamedQuery(name = "Merchants.findBySflag", query = "SELECT m FROM Merchants m WHERE m.sflag = :sflag")
 })
 public class Merchants implements Serializable
 {
@@ -49,11 +52,6 @@ public class Merchants implements Serializable
   @Size(min = 1, max = 255)
   @Column(name = "name")
   private String name;
-  @Basic(optional = false)
-  @NotNull
-  @Size(min = 1, max = 255)
-  @Column(name = "password")
-  private String password;
   // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
   @Basic(optional = false)
   @NotNull
@@ -71,6 +69,16 @@ public class Merchants implements Serializable
   @Size(min = 1, max = 2147483647)
   @Column(name = "address")
   private String address;
+  @Size(max = 255)
+  @Column(name = "npwpperusahaan")
+  private String npwpperusahaan;
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "sflag")
+  private boolean sflag;
+  @JoinColumn(name = "category", referencedColumnName = "id")
+  @ManyToOne
+  private MerchantCategories category;
 
   public Merchants()
   {
@@ -81,14 +89,14 @@ public class Merchants implements Serializable
     this.code = code;
   }
 
-  public Merchants(String code, String name, String password, String email, String phone, String address)
+  public Merchants(String code, String name, String email, String phone, String address, boolean sflag)
   {
     this.code = code;
     this.name = name;
-    this.password = password;
     this.email = email;
     this.phone = phone;
     this.address = address;
+    this.sflag = sflag;
   }
 
   public String getCode()
@@ -109,16 +117,6 @@ public class Merchants implements Serializable
   public void setName(String name)
   {
     this.name = name;
-  }
-
-  public String getPassword()
-  {
-    return password;
-  }
-
-  public void setPassword(String password)
-  {
-    this.password = password;
   }
 
   public String getEmail()
@@ -149,6 +147,36 @@ public class Merchants implements Serializable
   public void setAddress(String address)
   {
     this.address = address;
+  }
+
+  public String getNpwpperusahaan()
+  {
+    return npwpperusahaan;
+  }
+
+  public void setNpwpperusahaan(String npwpperusahaan)
+  {
+    this.npwpperusahaan = npwpperusahaan;
+  }
+
+  public boolean getSflag()
+  {
+    return sflag;
+  }
+
+  public void setSflag(boolean sflag)
+  {
+    this.sflag = sflag;
+  }
+
+  public MerchantCategories getCategory()
+  {
+    return category;
+  }
+
+  public void setCategory(MerchantCategories category)
+  {
+    this.category = category;
   }
 
   @Override

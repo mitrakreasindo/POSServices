@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -60,7 +59,6 @@ public class Stockdiary implements Serializable
   @Column(name = "datenew")
   //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   @Temporal(TemporalType.TIMESTAMP)
-  @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
   private Date datenew;
   @Basic(optional = false)
   @NotNull

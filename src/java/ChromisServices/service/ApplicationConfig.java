@@ -35,6 +35,8 @@ public class ApplicationConfig extends Application {
     resources.add(ChromisServices.service.ClosedcashFacadeREST.class);
     resources.add(ChromisServices.service.CustomersFacadeREST.class);
     resources.add(ChromisServices.service.LocationsFacadeREST.class);
+    resources.add(ChromisServices.service.MerchantCategoriesFacadeREST.class);
+    resources.add(ChromisServices.service.MerchantPeopleFacadeREST.class);
     resources.add(ChromisServices.service.MerchantsFacadeREST.class);
     resources.add(ChromisServices.service.PaymentsFacadeREST.class);
     resources.add(ChromisServices.service.PeopleFacadeREST.class);
@@ -49,6 +51,8 @@ public class ApplicationConfig extends Application {
     resources.add(ChromisServices.service.TaxesFacadeREST.class);
     resources.add(ChromisServices.service.TicketlinesFacadeREST.class);
     resources.add(ChromisServices.service.TicketsFacadeREST.class);
+    resources.add(ChromisServices.service.ViewsalesFacadeREST.class);
+    resources.add(ChromisServices.service.ViewsalesitemsFacadeREST.class);
     }
     
 }

@@ -5,7 +5,7 @@
  */
 package ChromisServices.service;
 
-import Chromis.Entities.Customers;
+import Chromis.Entities.Viewsales;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,16 +25,16 @@ import javax.ws.rs.core.MediaType;
  * @author Asun
  */
 @Stateless
-@Path("chromis.customers")
-public class CustomersFacadeREST extends AbstractFacade<Customers>
+@Path("chromis.entities.viewsales")
+public class ViewsalesFacadeREST extends AbstractFacade<Viewsales>
 {
 
   @PersistenceContext(unitName = "MKChromisServicesPU")
   private EntityManager em;
 
-  public CustomersFacadeREST()
+  public ViewsalesFacadeREST()
   {
-    super(Customers.class);
+    super(Viewsales.class);
   }
 
 //  @POST
@@ -43,7 +43,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public void create(Customers entity)
+//  public void create(Viewsales entity)
 //  {
 //    super.create(entity);
 //  }
@@ -54,7 +54,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public void edit(@PathParam("id") String id, Customers entity)
+//  public void edit(@PathParam("id") String id, Viewsales entity)
 //  {
 //    super.edit(entity);
 //  }
@@ -72,7 +72,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public Customers find(@PathParam("id") String id)
+//  public Viewsales find(@PathParam("id") String id)
 //  {
 //    return super.find(id);
 //  }
@@ -83,7 +83,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public List<Customers> findAll()
+//  public List<Viewsales> findAll()
 //  {
 //    return super.findAll();
 //  }
@@ -94,7 +94,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public List<Customers> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to)
+//  public List<Viewsales> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to)
 //  {
 //    return super.findRange(new int[]{from, to});
 //  }

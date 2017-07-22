@@ -5,7 +5,6 @@
  */
 package ChromisServices.service;
 
-import Chromis.Entities.Roles;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;

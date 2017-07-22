@@ -6,46 +6,41 @@
 package Chromis.Entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Asun
  */
 @Entity
-@Table(name = "viewtickets")
+@Table(name = "viewsales")
 @XmlRootElement
 @NamedQueries(
 {
-  @NamedQuery(name = "Viewtickets.findAll", query = "SELECT v FROM Viewtickets v")
-  , @NamedQuery(name = "Viewtickets.findById", query = "SELECT v FROM Viewtickets v WHERE v.id = :id")
-  , @NamedQuery(name = "Viewtickets.findByTickettype", query = "SELECT v FROM Viewtickets v WHERE v.tickettype = :tickettype")
-  , @NamedQuery(name = "Viewtickets.findByTicketid", query = "SELECT v FROM Viewtickets v WHERE v.ticketid = :ticketid")
-  , @NamedQuery(name = "Viewtickets.findByPerson", query = "SELECT v FROM Viewtickets v WHERE v.person = :person")
-  , @NamedQuery(name = "Viewtickets.findByCustomer", query = "SELECT v FROM Viewtickets v WHERE v.customer = :customer")
-  , @NamedQuery(name = "Viewtickets.findByStatus", query = "SELECT v FROM Viewtickets v WHERE v.status = :status")
-  , @NamedQuery(name = "Viewtickets.findBySiteguid", query = "SELECT v FROM Viewtickets v WHERE v.siteguid = :siteguid")
-  , @NamedQuery(name = "Viewtickets.findBySflag", query = "SELECT v FROM Viewtickets v WHERE v.sflag = :sflag")
-  , @NamedQuery(name = "Viewtickets.findByCustomerName", query = "SELECT v FROM Viewtickets v WHERE v.customerName = :customerName")
-  , @NamedQuery(name = "Viewtickets.findByPersonName", query = "SELECT v FROM Viewtickets v WHERE v.personName = :personName")
-  , @NamedQuery(name = "Viewtickets.findByDatenew", query = "SELECT v FROM Viewtickets v WHERE v.datenew = :datenew")
+  @NamedQuery(name = "Viewsales.findAll", query = "SELECT v FROM Viewsales v")
+  , @NamedQuery(name = "Viewsales.findById", query = "SELECT v FROM Viewsales v WHERE v.id = :id")
+  , @NamedQuery(name = "Viewsales.findBySalestype", query = "SELECT v FROM Viewsales v WHERE v.salestype = :salestype")
+  , @NamedQuery(name = "Viewsales.findBySalesnum", query = "SELECT v FROM Viewsales v WHERE v.salesnum = :salesnum")
+  , @NamedQuery(name = "Viewsales.findByPerson", query = "SELECT v FROM Viewsales v WHERE v.person = :person")
+  , @NamedQuery(name = "Viewsales.findByCustomer", query = "SELECT v FROM Viewsales v WHERE v.customer = :customer")
+  , @NamedQuery(name = "Viewsales.findByStatus", query = "SELECT v FROM Viewsales v WHERE v.status = :status")
+  , @NamedQuery(name = "Viewsales.findBySiteguid", query = "SELECT v FROM Viewsales v WHERE v.siteguid = :siteguid")
+  , @NamedQuery(name = "Viewsales.findBySflag", query = "SELECT v FROM Viewsales v WHERE v.sflag = :sflag")
+  , @NamedQuery(name = "Viewsales.findByCustomerName", query = "SELECT v FROM Viewsales v WHERE v.customerName = :customerName")
+  , @NamedQuery(name = "Viewsales.findByPersonName", query = "SELECT v FROM Viewsales v WHERE v.personName = :personName")
+  , @NamedQuery(name = "Viewsales.findByDatenew", query = "SELECT v FROM Viewsales v WHERE v.datenew = :datenew")
 })
-public class Viewtickets implements Serializable
+public class Viewsales implements Serializable
 {
 
   private static final long serialVersionUID = 1L;
@@ -53,10 +48,10 @@ public class Viewtickets implements Serializable
   @Id
   @Column(name = "id")
   private String id;
-  @Column(name = "tickettype")
-  private Integer tickettype;
-  @Column(name = "ticketid")
-  private Integer ticketid;
+  @Column(name = "salestype")
+  private Integer salestype;
+  @Column(name = "salesnum")
+  private Integer salesnum;
   @Size(max = 255)
   @Column(name = "person")
   private String person;
@@ -79,26 +74,11 @@ public class Viewtickets implements Serializable
   @Column(name = "datenew")
   @Temporal(TemporalType.TIMESTAMP)
   private Date datenew;
-  
-  //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "tickets")
-  private Collection<Viewticketlines> ticketlinesCollection;
 
-  public Viewtickets()
+  public Viewsales()
   {
   }
 
-  @XmlTransient
-  public Collection<Viewticketlines> getTicketlinesCollection()
-  {
-    return ticketlinesCollection;
-  }
-
-  public void setTicketlinesCollection(Collection<Viewticketlines> ticketlinesCollection)
-  {
-    this.ticketlinesCollection = ticketlinesCollection;
-  }
-
-  
   public String getId()
   {
     return id;
@@ -109,24 +89,24 @@ public class Viewtickets implements Serializable
     this.id = id;
   }
 
-  public Integer getTickettype()
+  public Integer getSalestype()
   {
-    return tickettype;
+    return salestype;
   }
 
-  public void setTickettype(Integer tickettype)
+  public void setSalestype(Integer salestype)
   {
-    this.tickettype = tickettype;
+    this.salestype = salestype;
   }
 
-  public Integer getTicketid()
+  public Integer getSalesnum()
   {
-    return ticketid;
+    return salesnum;
   }
 
-  public void setTicketid(Integer ticketid)
+  public void setSalesnum(Integer salesnum)
   {
-    this.ticketid = ticketid;
+    this.salesnum = salesnum;
   }
 
   public String getPerson()
