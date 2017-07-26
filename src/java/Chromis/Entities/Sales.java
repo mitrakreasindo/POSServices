@@ -6,16 +6,24 @@
 package Chromis.Entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -28,14 +36,33 @@ import javax.xml.bind.annotation.XmlRootElement;
 {
   @NamedQuery(name = "Sales.findAll", query = "SELECT s FROM Sales s")
   , @NamedQuery(name = "Sales.findById", query = "SELECT s FROM Sales s WHERE s.id = :id")
-  , @NamedQuery(name = "Sales.findByTickettype", query = "SELECT s FROM Sales s WHERE s.tickettype = :tickettype")
-  , @NamedQuery(name = "Sales.findByTicketid", query = "SELECT s FROM Sales s WHERE s.ticketid = :ticketid")
   , @NamedQuery(name = "Sales.findByStatus", query = "SELECT s FROM Sales s WHERE s.status = :status")
   , @NamedQuery(name = "Sales.findBySiteguid", query = "SELECT s FROM Sales s WHERE s.siteguid = :siteguid")
   , @NamedQuery(name = "Sales.findBySflag", query = "SELECT s FROM Sales s WHERE s.sflag = :sflag")
 })
 public class Sales implements Serializable
 {
+
+  @JoinColumn(name = "customer", referencedColumnName = "id")
+  @ManyToOne
+  private Customers customer;
+  @JoinColumn(name = "person", referencedColumnName = "id")
+  @ManyToOne(optional = false)
+  private People person;
+  @JoinColumn(name = "id", referencedColumnName = "id")
+  @OneToOne(optional = false)
+  private Receipts receipts;
+
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "salestype")
+  private int salestype;
+  @Basic(optional = false)
+  @NotNull
+  @Column(name = "salesnum")
+  private int salesnum;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "salesId")
+  private Collection<SalesItems> salesItemsCollection;
 
   private static final long serialVersionUID = 1L;
   @Id
@@ -44,14 +71,6 @@ public class Sales implements Serializable
   @Size(min = 1, max = 255)
   @Column(name = "id")
   private String id;
-  @Basic(optional = false)
-  @NotNull
-  @Column(name = "tickettype")
-  private int tickettype;
-  @Basic(optional = false)
-  @NotNull
-  @Column(name = "ticketid")
-  private int ticketid;
   @Basic(optional = false)
   @NotNull
   @Column(name = "status")
@@ -73,11 +92,9 @@ public class Sales implements Serializable
     this.id = id;
   }
 
-  public Sales(String id, int tickettype, int ticketid, int status, String siteguid)
+  public Sales(String id, int status, String siteguid)
   {
     this.id = id;
-    this.tickettype = tickettype;
-    this.ticketid = ticketid;
     this.status = status;
     this.siteguid = siteguid;
   }
@@ -90,26 +107,6 @@ public class Sales implements Serializable
   public void setId(String id)
   {
     this.id = id;
-  }
-
-  public int getTickettype()
-  {
-    return tickettype;
-  }
-
-  public void setTickettype(int tickettype)
-  {
-    this.tickettype = tickettype;
-  }
-
-  public int getTicketid()
-  {
-    return ticketid;
-  }
-
-  public void setTicketid(int ticketid)
-  {
-    this.ticketid = ticketid;
   }
 
   public int getStatus()
@@ -170,6 +167,68 @@ public class Sales implements Serializable
   public String toString()
   {
     return "Chromis.Entities.Sales[ id=" + id + " ]";
+  }
+
+  public int getSalestype()
+  {
+    return salestype;
+  }
+
+  public void setSalestype(int salestype)
+  {
+    this.salestype = salestype;
+  }
+
+  public int getSalesnum()
+  {
+    return salesnum;
+  }
+
+  public void setSalesnum(int salesnum)
+  {
+    this.salesnum = salesnum;
+  }
+
+  @XmlTransient
+  @JsonIgnore
+  public Collection<SalesItems> getSalesItemsCollection()
+  {
+    return salesItemsCollection;
+  }
+
+  public void setSalesItemsCollection(Collection<SalesItems> salesItemsCollection)
+  {
+    this.salesItemsCollection = salesItemsCollection;
+  }
+
+  public Customers getCustomer()
+  {
+    return customer;
+  }
+
+  public void setCustomer(Customers customer)
+  {
+    this.customer = customer;
+  }
+
+  public People getPerson()
+  {
+    return person;
+  }
+
+  public void setPerson(People person)
+  {
+    this.person = person;
+  }
+
+  public Receipts getReceipts()
+  {
+    return receipts;
+  }
+
+  public void setReceipts(Receipts receipts)
+  {
+    this.receipts = receipts;
   }
   
 }

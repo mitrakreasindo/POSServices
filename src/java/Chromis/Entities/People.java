@@ -6,8 +6,10 @@
 package Chromis.Entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,12 +18,15 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 
 /**
@@ -56,6 +61,8 @@ public class People implements Serializable
   @Type(type="org.hibernate.type.BinaryType")
   @Column(name = "image")
   private byte[] image;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+  private Collection<Sales> salesCollection;
 
   private static final long serialVersionUID = 1L;
   @Id
@@ -328,6 +335,18 @@ public class People implements Serializable
   public void setImage(byte[] image)
   {
     this.image = image;
+  }
+
+  @XmlTransient
+  @JsonIgnore
+  public Collection<Sales> getSalesCollection()
+  {
+    return salesCollection;
+  }
+
+  public void setSalesCollection(Collection<Sales> salesCollection)
+  {
+    this.salesCollection = salesCollection;
   }
   
 }

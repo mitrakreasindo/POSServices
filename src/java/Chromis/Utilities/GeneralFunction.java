@@ -5,22 +5,32 @@
  */
 package Chromis.Utilities;
 
+import Chromis.Controller.MerchantPeopleController;
 import Chromis.Entities.MerchantRegistration;
 import Chromis.Entities.People;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.Message;
 import javax.mail.Transport;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.postgresql.util.PGobject;
 
 /**
  *
@@ -170,6 +180,60 @@ public class GeneralFunction {
          mex.printStackTrace();
       }
       return false;
+  }
+  
+  //Convert object array to jsonstring
+  public static String convert2Json(Object input)
+  {
+    boolean result = true;
+    ObjectMapper mapper = new ObjectMapper();
+    String jsoninString = "";
+    try
+    {
+      //Object to JSON in String
+      jsoninString = mapper.writeValueAsString(input);
+      //System.out.println(jsoninString);
+      PGobject jsonObject = new PGobject();
+      jsonObject.setType("json");
+      jsonObject.setValue(jsoninString);
+    }
+    catch (IOException | SQLException ex )
+    {
+      Logger.getLogger(GeneralFunction.class.getName()).log(Level.SEVERE, null, ex);
+      result = false;
+    }
+    
+    if(result == true)
+    {
+      return jsoninString;
+    }
+    else return "failed";
+  }
+  
+  public static Date dateFormatter()
+  {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+    Date date = new Date();
+    try
+    {
+      date = dateFormat.parse(new Date().toString());
+    }
+    catch (ParseException ex)
+    {
+      Logger.getLogger(GeneralFunction.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    
+    return date;
+  }
+  
+  public static String date2String(Date date)
+  {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    String outputdate = "";
+    
+    outputdate = dateFormat.format(date);
+    
+    return outputdate;
   }
   
 }

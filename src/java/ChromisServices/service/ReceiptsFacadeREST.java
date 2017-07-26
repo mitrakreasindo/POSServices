@@ -6,6 +6,7 @@
 package ChromisServices.service;
 
 import Chromis.Entities.Receipts;
+import Chromis.Entities.Viewreceipts;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -26,7 +27,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Stateless
 @Path("chromis.receipts")
-public class ReceiptsFacadeREST extends AbstractFacade<Receipts>
+public class ReceiptsFacadeREST extends AbstractFacade<Viewreceipts>
 {
 
   @PersistenceContext(unitName = "MKChromisServicesPU")
@@ -34,7 +35,7 @@ public class ReceiptsFacadeREST extends AbstractFacade<Receipts>
 
   public ReceiptsFacadeREST()
   {
-    super(Receipts.class);
+    super(Viewreceipts.class);
   }
 
 //  @POST
@@ -77,16 +78,14 @@ public class ReceiptsFacadeREST extends AbstractFacade<Receipts>
 //    return super.find(id);
 //  }
 //
-//  @GET
-//  @Override
-//  @Produces(
-//  {
-//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-//  })
-//  public List<Receipts> findAll()
-//  {
-//    return super.findAll();
-//  }
+  @GET
+  @Override
+  @Path("{kode}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public List<Viewreceipts> findAll(@PathParam("kode") String kodeMerchant)
+  {
+    return super.findAll(kodeMerchant);
+  }
 //
 //  @GET
 //  @Path("{from}/{to}")

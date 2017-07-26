@@ -5,7 +5,10 @@
  */
 package ChromisServices.service;
 
-import Chromis.Entities.Viewsalesitems;
+import Chromis.Controller.SalesController;
+import Chromis.Entities.Sales;
+import Chromis.Entities.SalesPack;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,28 +28,30 @@ import javax.ws.rs.core.MediaType;
  * @author Asun
  */
 @Stateless
-@Path("chromis.entities.viewsalesitems")
-public class ViewsalesitemsFacadeREST extends AbstractFacade<Viewsalesitems>
+@Path("chromis.entities.sales")
+public class SalesFacadeREST extends AbstractFacade<Sales>
 {
 
   @PersistenceContext(unitName = "MKChromisServicesPU")
   private EntityManager em;
 
-  public ViewsalesitemsFacadeREST()
+  public SalesFacadeREST()
   {
-    super(Viewsalesitems.class);
+    super(Sales.class);
   }
 
-//  @POST
-//  @Override
-//  @Consumes(
-//  {
-//    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-//  })
-//  public void create(Viewsalesitems entity)
-//  {
-//    super.create(entity);
-//  }
+  @POST
+  @Path("{kode}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  public HashMap<Integer, String> create(@PathParam("kode") String kodeMerchant)
+  {
+    SalesController sc = new SalesController();
+    SalesPack pack = sc.testSales();
+    
+    return sc.create(em, kodeMerchant, pack);
+    //super.create(entity);
+  }
 //
 //  @PUT
 //  @Path("{id}")
@@ -54,7 +59,7 @@ public class ViewsalesitemsFacadeREST extends AbstractFacade<Viewsalesitems>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public void edit(@PathParam("id") String id, Viewsalesitems entity)
+//  public void edit(@PathParam("id") String id, Sales entity)
 //  {
 //    super.edit(entity);
 //  }
@@ -72,7 +77,7 @@ public class ViewsalesitemsFacadeREST extends AbstractFacade<Viewsalesitems>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public Viewsalesitems find(@PathParam("id") String id)
+//  public Sales find(@PathParam("id") String id)
 //  {
 //    return super.find(id);
 //  }
@@ -83,7 +88,7 @@ public class ViewsalesitemsFacadeREST extends AbstractFacade<Viewsalesitems>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public List<Viewsalesitems> findAll()
+//  public List<Sales> findAll()
 //  {
 //    return super.findAll();
 //  }
@@ -94,7 +99,7 @@ public class ViewsalesitemsFacadeREST extends AbstractFacade<Viewsalesitems>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public List<Viewsalesitems> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to)
+//  public List<Sales> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to)
 //  {
 //    return super.findRange(new int[]{from, to});
 //  }

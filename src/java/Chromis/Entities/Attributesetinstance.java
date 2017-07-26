@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -39,7 +40,6 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Attributesetinstance implements Serializable
 {
-
   private static final long serialVersionUID = 1L;
   @Id
   @Basic(optional = false)
@@ -61,7 +61,7 @@ public class Attributesetinstance implements Serializable
   @ManyToOne(optional = false)
   private Attributeset attributesetId;
   @OneToMany(mappedBy = "attributesetinstanceId")
-  private Collection<Ticketlines> ticketlinesCollection;
+  private Collection<SalesItems> salesItemsCollection;
   @OneToMany(mappedBy = "attributesetinstanceId")
   private Collection<Stockdiary> stockdiaryCollection;
 
@@ -131,17 +131,6 @@ public class Attributesetinstance implements Serializable
   }
 
   @XmlTransient
-  public Collection<Ticketlines> getTicketlinesCollection()
-  {
-    return ticketlinesCollection;
-  }
-
-  public void setTicketlinesCollection(Collection<Ticketlines> ticketlinesCollection)
-  {
-    this.ticketlinesCollection = ticketlinesCollection;
-  }
-
-  @XmlTransient
   public Collection<Stockdiary> getStockdiaryCollection()
   {
     return stockdiaryCollection;
@@ -180,6 +169,18 @@ public class Attributesetinstance implements Serializable
   public String toString()
   {
     return "Chromis.Entities.Attributesetinstance[ id=" + id + " ]";
+  }
+
+  @XmlTransient
+  @JsonIgnore
+  public Collection<SalesItems> getSalesItemsCollection()
+  {
+    return salesItemsCollection;
+  }
+
+  public void setSalesItemsCollection(Collection<SalesItems> salesItemsCollection)
+  {
+    this.salesItemsCollection = salesItemsCollection;
   }
   
 }

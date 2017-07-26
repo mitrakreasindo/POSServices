@@ -44,15 +44,14 @@ public class ApplicationConfig extends Application {
     resources.add(ChromisServices.service.PromotionsFacadeREST.class);
     resources.add(ChromisServices.service.ReceiptsFacadeREST.class);
     resources.add(ChromisServices.service.RolesFacadeREST.class);
+    resources.add(ChromisServices.service.SalesFacadeREST.class);
+    resources.add(ChromisServices.service.SalesItemsFacadeREST.class);
     resources.add(ChromisServices.service.StockCurrentFacadeREST.class);
     resources.add(ChromisServices.service.StockdiaryFacadeREST.class);
     resources.add(ChromisServices.service.TaxcategoriesFacadeREST.class);
     resources.add(ChromisServices.service.TaxcustcategoriesFacadeREST.class);
     resources.add(ChromisServices.service.TaxesFacadeREST.class);
-    resources.add(ChromisServices.service.TicketlinesFacadeREST.class);
-    resources.add(ChromisServices.service.TicketsFacadeREST.class);
-    resources.add(ChromisServices.service.ViewsalesFacadeREST.class);
-    resources.add(ChromisServices.service.ViewsalesitemsFacadeREST.class);
+    resources.add(ChromisServices.service.TaxlinesFacadeREST.class);
     }
     
 }

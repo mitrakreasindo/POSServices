@@ -45,8 +45,8 @@ public class Viewsales implements Serializable
 
   private static final long serialVersionUID = 1L;
   @Size(max = 255)
-  @Id
   @Column(name = "id")
+  @Id
   private String id;
   @Column(name = "salestype")
   private Integer salestype;
@@ -72,8 +72,8 @@ public class Viewsales implements Serializable
   @Column(name = "person_name")
   private String personName;
   @Column(name = "datenew")
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date datenew;
+  //@Temporal(TemporalType.TIMESTAMP)
+  private String datenew;
 
   public Viewsales()
   {
@@ -179,12 +179,12 @@ public class Viewsales implements Serializable
     this.personName = personName;
   }
 
-  public Date getDatenew()
+  public String getDatenew()
   {
     return datenew;
   }
 
-  public void setDatenew(Date datenew)
+  public void setDatenew(String datenew)
   {
     this.datenew = datenew;
   }

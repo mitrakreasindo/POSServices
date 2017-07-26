@@ -81,8 +81,8 @@ public class Closedcash implements Serializable
   private String siteguid;
   @Column(name = "sflag")
   private Boolean sflag;
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "money")
-  private Collection<Receipts> receiptsCollection;
+  //@OneToMany(cascade = CascadeType.ALL, mappedBy = "money")
+  //private Collection<Receipts> receiptsCollection;
 
   public Closedcash()
   {
@@ -183,16 +183,16 @@ public class Closedcash implements Serializable
     this.sflag = sflag;
   }
 
-  @XmlTransient
-  public Collection<Receipts> getReceiptsCollection()
-  {
-    return receiptsCollection;
-  }
-
-  public void setReceiptsCollection(Collection<Receipts> receiptsCollection)
-  {
-    this.receiptsCollection = receiptsCollection;
-  }
+//  @XmlTransient
+//  public Collection<Receipts> getReceiptsCollection()
+//  {
+//    return receiptsCollection;
+//  }
+//
+//  public void setReceiptsCollection(Collection<Receipts> receiptsCollection)
+//  {
+//    this.receiptsCollection = receiptsCollection;
+//  }
 
   @Override
   public int hashCode()

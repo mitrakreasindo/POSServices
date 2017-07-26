@@ -15,7 +15,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.hibernate.annotations.Type;
 
 /**
  *
@@ -68,7 +67,7 @@ public class Viewsalesitems implements Serializable
   @Size(max = 255)
   @Column(name = "taxid")
   private String taxid;
-  @Type(type="org.hibernate.type.BinaryType")
+  @Lob
   @Column(name = "attributes")
   private byte[] attributes;
   @Column(name = "refundqty")

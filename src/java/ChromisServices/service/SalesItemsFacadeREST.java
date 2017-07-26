@@ -5,7 +5,7 @@
  */
 package ChromisServices.service;
 
-import Chromis.Entities.Viewsales;
+import Chromis.Entities.SalesItems;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,16 +25,16 @@ import javax.ws.rs.core.MediaType;
  * @author Asun
  */
 @Stateless
-@Path("chromis.entities.viewsales")
-public class ViewsalesFacadeREST extends AbstractFacade<Viewsales>
+@Path("chromis.entities.salesitems")
+public class SalesItemsFacadeREST extends AbstractFacade<SalesItems>
 {
 
   @PersistenceContext(unitName = "MKChromisServicesPU")
   private EntityManager em;
 
-  public ViewsalesFacadeREST()
+  public SalesItemsFacadeREST()
   {
-    super(Viewsales.class);
+    super(SalesItems.class);
   }
 
 //  @POST
@@ -43,7 +43,7 @@ public class ViewsalesFacadeREST extends AbstractFacade<Viewsales>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public void create(Viewsales entity)
+//  public void create(SalesItems entity)
 //  {
 //    super.create(entity);
 //  }
@@ -54,14 +54,14 @@ public class ViewsalesFacadeREST extends AbstractFacade<Viewsales>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public void edit(@PathParam("id") String id, Viewsales entity)
+//  public void edit(@PathParam("id") Integer id, SalesItems entity)
 //  {
 //    super.edit(entity);
 //  }
 //
 //  @DELETE
 //  @Path("{id}")
-//  public void remove(@PathParam("id") String id)
+//  public void remove(@PathParam("id") Integer id)
 //  {
 //    super.remove(super.find(id));
 //  }
@@ -72,7 +72,7 @@ public class ViewsalesFacadeREST extends AbstractFacade<Viewsales>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public Viewsales find(@PathParam("id") String id)
+//  public SalesItems find(@PathParam("id") Integer id)
 //  {
 //    return super.find(id);
 //  }
@@ -83,7 +83,7 @@ public class ViewsalesFacadeREST extends AbstractFacade<Viewsales>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public List<Viewsales> findAll()
+//  public List<SalesItems> findAll()
 //  {
 //    return super.findAll();
 //  }
@@ -94,7 +94,7 @@ public class ViewsalesFacadeREST extends AbstractFacade<Viewsales>
 //  {
 //    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
 //  })
-//  public List<Viewsales> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to)
+//  public List<SalesItems> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to)
 //  {
 //    return super.findRange(new int[]{from, to});
 //  }

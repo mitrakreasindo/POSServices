@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -22,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 
 /**
@@ -77,7 +79,7 @@ public class Products implements Serializable
   @Column(name = "image")
   private byte[] image;
   @OneToMany(mappedBy = "product")
-  private Collection<Ticketlines> ticketlinesCollection;
+  private Collection<SalesItems> salesItemsCollection;
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
   private Collection<Stockdiary> stockdiaryCollection;
 
@@ -674,6 +676,17 @@ public class Products implements Serializable
     return "Chromis.Entities.Products[ id=" + id + " ]";
   }
 
+  @XmlTransient
+  public Collection<Stockdiary> getStockdiaryCollection()
+  {
+    return stockdiaryCollection;
+  }
+
+  public void setStockdiaryCollection(Collection<Stockdiary> stockdiaryCollection)
+  {
+    this.stockdiaryCollection = stockdiaryCollection;
+  }
+
   public byte[] getAttributes()
   {
     return attributes;
@@ -695,25 +708,15 @@ public class Products implements Serializable
   }
 
   @XmlTransient
-  public Collection<Ticketlines> getTicketlinesCollection()
+  @JsonIgnore
+  public Collection<SalesItems> getSalesItemsCollection()
   {
-    return ticketlinesCollection;
+    return salesItemsCollection;
   }
 
-  public void setTicketlinesCollection(Collection<Ticketlines> ticketlinesCollection)
+  public void setSalesItemsCollection(Collection<SalesItems> salesItemsCollection)
   {
-    this.ticketlinesCollection = ticketlinesCollection;
-  }
-
-  @XmlTransient
-  public Collection<Stockdiary> getStockdiaryCollection()
-  {
-    return stockdiaryCollection;
-  }
-
-  public void setStockdiaryCollection(Collection<Stockdiary> stockdiaryCollection)
-  {
-    this.stockdiaryCollection = stockdiaryCollection;
+    this.salesItemsCollection = salesItemsCollection;
   }
   
 }

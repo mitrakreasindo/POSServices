@@ -6,8 +6,10 @@
 package Chromis.Entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,12 +18,17 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -42,6 +49,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Receipts implements Serializable
 {
 
+  @Type(type="org.hibernate.type.BinaryType")
+  @Column(name = "attributes")
+  private byte[] attributes;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "receipt")
+  private Collection<Payments> paymentsCollection;
+  @OneToOne(cascade = CascadeType.ALL, mappedBy = "receipts")
+  private Sales sales;
+
   private static final long serialVersionUID = 1L;
   @Id
   @Basic(optional = false)
@@ -57,9 +72,6 @@ public class Receipts implements Serializable
   @Size(max = 255)
   @Column(name = "person")
   private String person;
-  @Lob
-  @Column(name = "attributes")
-  private byte[] attributes;
   @Basic(optional = false)
   @NotNull
   @Size(min = 1, max = 50)
@@ -117,15 +129,6 @@ public class Receipts implements Serializable
     this.person = person;
   }
 
-  public byte[] getAttributes()
-  {
-    return attributes;
-  }
-
-  public void setAttributes(byte[] attributes)
-  {
-    this.attributes = attributes;
-  }
 
   public String getSiteguid()
   {
@@ -185,6 +188,38 @@ public class Receipts implements Serializable
   public String toString()
   {
     return "Chromis.Entities.Receipts[ id=" + id + " ]";
+  }
+
+  public byte[] getAttributes()
+  {
+    return attributes;
+  }
+
+  public void setAttributes(byte[] attributes)
+  {
+    this.attributes = attributes;
+  }
+
+  @XmlTransient
+  @JsonIgnore
+  public Collection<Payments> getPaymentsCollection()
+  {
+    return paymentsCollection;
+  }
+
+  public void setPaymentsCollection(Collection<Payments> paymentsCollection)
+  {
+    this.paymentsCollection = paymentsCollection;
+  }
+
+  public Sales getSales()
+  {
+    return sales;
+  }
+
+  public void setSales(Sales sales)
+  {
+    this.sales = sales;
   }
   
 }

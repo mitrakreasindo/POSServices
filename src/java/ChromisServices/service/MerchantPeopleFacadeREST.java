@@ -49,10 +49,10 @@ public class MerchantPeopleFacadeREST extends AbstractFacade<MerchantPeople>
   public HashMap<Integer, String> create(String temp)
   {
     //GeneralFunction.sendRegistrationMail("", "", "Berhasil testing");
-    HashMap<Integer, String> result = new HashMap<Integer, String>();
-    result.put(1, "Berhasil");
-    return result;
-    //return GeneralController.executeSP(MerchantPeopleController.sp_create(em));
+    //HashMap<Integer, String> result = new HashMap<Integer, String>();
+    //result.put(1, "Berhasil");
+    //return result;
+    return GeneralController.executeSP(MerchantPeopleController.sp_create(em));
   }
   
   @Override

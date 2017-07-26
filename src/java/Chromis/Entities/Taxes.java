@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -43,6 +44,9 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class Taxes implements Serializable
 {
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "taxid")
+  private Collection<SalesItems> salesItemsCollection;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "taxid")
   private Collection<Taxlines> taxlinesCollection;
@@ -87,9 +91,7 @@ public class Taxes implements Serializable
   @JoinColumn(name = "parentid", referencedColumnName = "id")
   @ManyToOne
   private Taxes parentid;
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "taxid")
-  private Collection<Ticketlines> ticketlinesCollection;
-
+  
   public Taxes()
   {
   }
@@ -219,17 +221,6 @@ public class Taxes implements Serializable
     this.parentid = parentid;
   }
 
-  @XmlTransient
-  public Collection<Ticketlines> getTicketlinesCollection()
-  {
-    return ticketlinesCollection;
-  }
-
-  public void setTicketlinesCollection(Collection<Ticketlines> ticketlinesCollection)
-  {
-    this.ticketlinesCollection = ticketlinesCollection;
-  }
-
   @Override
   public int hashCode()
   {
@@ -269,6 +260,18 @@ public class Taxes implements Serializable
   public void setTaxlinesCollection(Collection<Taxlines> taxlinesCollection)
   {
     this.taxlinesCollection = taxlinesCollection;
+  }
+
+  @XmlTransient
+  @JsonIgnore
+  public Collection<SalesItems> getSalesItemsCollection()
+  {
+    return salesItemsCollection;
+  }
+
+  public void setSalesItemsCollection(Collection<SalesItems> salesItemsCollection)
+  {
+    this.salesItemsCollection = salesItemsCollection;
   }
   
 }
