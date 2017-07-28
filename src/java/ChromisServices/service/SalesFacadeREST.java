@@ -46,7 +46,7 @@ public class SalesFacadeREST extends AbstractFacade<Sales>
   @Consumes(MediaType.APPLICATION_JSON)
   public HashMap<Integer, String> create(@PathParam("kode") String kodeMerchant)
   {
-    SalesController sc = new SalesController();
+    SalesController sc = new SalesController();    
     SalesPack pack = sc.testSales();
     
     return sc.create(em, kodeMerchant, pack);

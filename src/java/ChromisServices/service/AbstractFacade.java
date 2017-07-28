@@ -5,6 +5,9 @@
  */
 package ChromisServices.service;
 
+import Chromis.Controller.SalesController;
+import Chromis.Entities.SalesPack;
+import Chromis.Utilities.GeneralFunction;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
@@ -90,6 +93,30 @@ public abstract class AbstractFacade<T>
     }
   }
 
+  public T getResult(String kodeMerchant, SalesPack entity){
+    HashMap<Integer, String> result = new HashMap<Integer, String>();
+    
+    String receiptsJson = GeneralFunction.convert2Json(entity.getReceipts());
+    String salesJson = GeneralFunction.convert2Json(entity.getSales());
+    String salesItemsJson = GeneralFunction.convert2Json(entity.getSalesItems());
+    String stockDiaryJson = GeneralFunction.convert2Json(entity.getStockdiary());
+    String paymentsJson = GeneralFunction.convert2Json(entity.getPayments());
+    String taxlinesJson = GeneralFunction.convert2Json(entity.getTaxlines());
+    
+    //Use native query to execute sp with json input
+    Query q = getEntityManager().createNativeQuery("SELECT * FROM "+kodeMerchant+".insert_sales_new"
+            + "("
+            + "'"+receiptsJson+"',"
+            + "'"+salesJson+"',"
+            + "'"+salesItemsJson+"',"
+            + "'"+stockDiaryJson+"',"
+            + "'"+paymentsJson+"',"
+            + "'"+taxlinesJson+"'"
+            + ")");
+    
+    return (T) q.getSingleResult();
+  }
+  
   //    public void create(T entity) {
 //        getEntityManager().persist(entity);
 //    }

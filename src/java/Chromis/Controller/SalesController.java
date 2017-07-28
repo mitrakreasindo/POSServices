@@ -5,6 +5,7 @@
  */
 package Chromis.Controller;
 
+import Chromis.Entities.Result;
 import Chromis.Entities.SalesPack;
 import Chromis.Entities.Viewpayments;
 import Chromis.Entities.Viewreceipts;
@@ -13,10 +14,15 @@ import Chromis.Entities.Viewsalesitems;
 import Chromis.Entities.Viewstockdiary;
 import Chromis.Entities.Viewtaxlines;
 import Chromis.Utilities.GeneralFunction;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -50,7 +56,7 @@ public class SalesController
     receipts.setSiteguid("a73c83f2-3c42-42a7-8f19-7d7cbea17286");
     
     //populate sales
-    sales.setId(UUID.randomUUID().toString());
+    sales.setId(receipts.getId());
     sales.setCustomer(null);
     sales.setPerson("0");
     sales.setSalesnum(0);
@@ -66,7 +72,7 @@ public class SalesController
     Viewsalesitems item = new Viewsalesitems();
     item.setAttributes(null);
     item.setAttributesetinstanceId(null);
-    item.setId(15);
+    item.setId(36);
     item.setLine(1);
     item.setPrice(1000.0);
       //Products p = new Products("b8403cee-738c-471d-8bfe-b5cc2da1c691");
@@ -84,7 +90,7 @@ public class SalesController
     item = new Viewsalesitems();
     item.setAttributes(null);
     item.setAttributesetinstanceId(null);
-    item.setId(16);
+    item.setId(37);
     item.setLine(2);
     item.setPrice(1000.0);
       //Products p = new Products("b8403cee-738c-471d-8bfe-b5cc2da1c691");
@@ -123,7 +129,7 @@ public class SalesController
     
     diary.setAppuser("appuser");
     diary.setAttributesetinstanceId(null);
-    diary.setLocation(null);
+    diary.setLocation("0");
     diary.setProduct("b8403cee-738c-471d-8bfe-b5cc2da1c691");
     diary.setReason(0);
     diary.setSflag(Boolean.TRUE);
@@ -138,10 +144,11 @@ public class SalesController
     diary.setUnits(1.0);
     diary.setAppuser("appuser");
     diary.setAttributesetinstanceId(null);
-    diary.setLocation(null);
+    diary.setLocation("0");
     diary.setProduct("b8403cee-738c-471d-8bfe-b5cc2da1c691");
     diary.setReason(0);
     diary.setSflag(Boolean.TRUE);
+    diary.setSiteguid("a73c83f2-3c42-42a7-8f19-7d7cbea17286");
     stockDiary.add(diary);
     
     Viewtaxlines tl = new Viewtaxlines();
@@ -199,8 +206,16 @@ public class SalesController
     
     try
     {
-      Object getResult = q.getSingleResult();
-      result.put(0, "Testing");
+      //q.getSingleResult().getClass();
+      Object[] obj = (Object[]) q.getSingleResult();
+      
+      
+      //List obj = q.getResultList();
+      System.out.println(obj[0]);
+      System.out.println(obj[1]);
+     
+      
+      result.put((Integer)obj[0], obj[1].toString());
       return result;
     }
     catch (Exception e)
