@@ -28,7 +28,7 @@ import javax.ws.rs.core.MediaType;
  * @author Asun
  */
 @Stateless
-@Path("chromis.entities.sales")
+@Path("chromis.sales")
 public class SalesFacadeREST extends AbstractFacade<Sales>
 {
 
